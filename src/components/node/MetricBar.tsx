@@ -63,8 +63,8 @@ export function MetricBar({
   return (
     <div className="metric-item">
       <div className="flex justify-between items-center gap-3 min-w-0">
-        <div className="flex items-center gap-1.5 text-[var(--text-secondary)] flex-shrink-0">
-          <span>{icon}</span>
+        <div className="metric-label flex items-center gap-1.5 text-[var(--text-secondary)] flex-shrink-0">
+          <span className="metric-icon">{icon}</span>
           <span className="text-[11px] font-medium tracking-[0.02em]">{label}</span>
         </div>
         <div className="tabular text-[13px] text-[var(--text-primary)] whitespace-nowrap overflow-hidden text-ellipsis max-w-full text-right">

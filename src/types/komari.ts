@@ -135,6 +135,7 @@ export interface NodeMetrics {
 
 export interface ThemeSettings {
   defaultAppearance?: "system" | "light" | "dark";
+  visualStyle?: "lumina" | "pastoral" | "cavern";
   desktopNodeViewMode?: "large" | "compact" | "mini" | "list";
   mobileNodeViewMode?: "large" | "compact" | "mini" | "list";
   enableAdminButton?: boolean;

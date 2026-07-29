@@ -1,5 +1,5 @@
-import { lazy, Suspense, useEffect, useState } from "react";
-import { AlertTriangle, ChevronLeft, ChevronRight, Grid3x3, LayoutGrid, List, Monitor, Palette, Rows3, Settings, SlidersHorizontal, Sun, Moon } from "lucide-react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { AlertTriangle, Check, ChevronLeft, ChevronRight, Grid3x3, LayoutGrid, List, Monitor, Mountain, Palette, Pipette, RotateCcw, Rows3, Settings, SlidersHorizontal, Sparkles, Sprout, Sun, Moon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { usePreferences } from "@/hooks/usePreferences";
 import { useViewMode } from "@/hooks/useViewMode";
@@ -28,12 +28,26 @@ const APPEARANCE_OPTIONS = [
   { value: "dark", icon: Moon, label: "深色" },
 ] as const;
 
+const VISUAL_STYLE_OPTIONS = [
+  { value: "lumina", icon: Sparkles, label: "Lumina", description: "清爽现代", swatches: ["#3b82f6", "#ffffff", "#71717a"] },
+  { value: "pastoral", icon: Sprout, label: "星露谷风格", description: "田园像素", swatches: ["#9bcf68", "#f3d58a", "#93643b"] },
+  { value: "cavern", icon: Mountain, label: "泰拉瑞亚风格", description: "洞穴像素", swatches: ["#263654", "#52627d", "#67bd5b"] },
+] as const;
+
 export function FloatingControls({
   onExpandedChange,
 }: {
   onExpandedChange?: (expanded: boolean) => void;
 }) {
-  const { appearance, setAppearance } = usePreferences();
+  const {
+    appearance,
+    resolvedAppearance,
+    visualStyle,
+    followsDefaultVisualStyle,
+    setAppearance,
+    setVisualStyle,
+    followDefaultVisualStyle,
+  } = usePreferences();
   const { mode, nextMode, toggleMode } = useViewMode();
   const { data: me } = useAuth();
   const themeSettings = useThemeSettings();
@@ -41,6 +55,10 @@ export function FloatingControls({
   const [collapsed, setCollapsed] = useState(true);
   const [colorsOpen, setColorsOpen] = useState(false);
   const [colorsMounted, setColorsMounted] = useState(false);
+  const [appearanceOpen, setAppearanceOpen] = useState(false);
+  const controlsRef = useRef<HTMLDivElement>(null);
+  const appearanceTriggerRef = useRef<HTMLButtonElement>(null);
+  const colorsTriggerRef = useRef<HTMLButtonElement>(null);
   const settingsReady = themeSettings.isReady;
   const showAdmin = settingsReady && themeSettings.enableAdminButton;
   // 主题管理入口与配色取色器都仅对登录管理员开放（配色存后端、全局生效）。
@@ -51,6 +69,10 @@ export function FloatingControls({
   const hiddenTabIndex = collapsed ? -1 : undefined;
   const ToggleIcon = collapsed ? ChevronLeft : ChevronRight;
   const ViewIcon = VIEW_MODE_META[nextMode].icon;
+  const currentStyle =
+    VISUAL_STYLE_OPTIONS.find((option) => option.value === visualStyle) ?? VISUAL_STYLE_OPTIONS[0];
+  const currentAppearanceLabel =
+    APPEARANCE_OPTIONS.find((option) => option.value === appearance)?.label ?? "跟随系统";
   // 只要不在最宽松的大卡默认态,就视为"已切换"，按钮保持高亮。
   const isReducedView = mode !== "large";
   useEffect(() => {
@@ -58,16 +80,43 @@ export function FloatingControls({
     return () => onExpandedChange?.(false);
   }, [onExpandedChange]);
 
+  useEffect(() => {
+    if (!appearanceOpen && !colorsOpen) return;
+
+    const closePanels = () => {
+      setAppearanceOpen(false);
+      setColorsOpen(false);
+    };
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!controlsRef.current?.contains(event.target as Node)) closePanels();
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      const trigger = appearanceOpen ? appearanceTriggerRef.current : colorsTriggerRef.current;
+      closePanels();
+      trigger?.focus();
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [appearanceOpen, colorsOpen]);
+
   const toggleControls = () => {
     // 收起快捷栏时同时结束子面板状态，避免下次展开时调色盘自动复现。
     const nextCollapsed = !collapsed;
     if (nextCollapsed) setColorsOpen(false);
+    if (nextCollapsed) setAppearanceOpen(false);
     setCollapsed(nextCollapsed);
     onExpandedChange?.(!nextCollapsed);
   };
 
   return (
     <div
+      ref={controlsRef}
       className={clsx(
         "floating-controls",
         collapsed && "is-collapsed",
@@ -79,29 +128,24 @@ export function FloatingControls({
           <div className="floating-controls-actions" aria-hidden={collapsed}>
             {settingsReady && (
               <>
-                <div
-                  className="control-group floating-controls-appearance"
-                  role="group"
-                  aria-label="外观选择"
+                <button
+                  ref={appearanceTriggerRef}
+                  type="button"
+                  onClick={() => {
+                    setAppearanceOpen((value) => !value);
+                    setColorsOpen(false);
+                  }}
+                  aria-label="外观设置"
+                  aria-pressed={appearanceOpen}
+                  title={`外观：${currentStyle.label} / ${currentAppearanceLabel}`}
+                  tabIndex={hiddenTabIndex}
+                  className={clsx(
+                    "control-button grid h-9 w-9 place-items-center",
+                    appearanceOpen && "control-toggle is-active",
+                  )}
                 >
-                  {APPEARANCE_OPTIONS.map(({ value, icon: Icon, label }) => (
-                    <button
-                      key={value}
-                      type="button"
-                      onClick={() => setAppearance(value)}
-                      aria-label={label}
-                      aria-pressed={appearance === value}
-                      title={label}
-                      tabIndex={hiddenTabIndex}
-                      className={clsx(
-                        "control-button grid h-9 w-9 place-items-center",
-                        appearance === value && "control-toggle is-active",
-                      )}
-                    >
-                      <Icon size={16} />
-                    </button>
-                  ))}
-                </div>
+                  <Palette size={16} />
+                </button>
                 <button
                   type="button"
                   onClick={toggleMode}
@@ -118,10 +162,12 @@ export function FloatingControls({
                 </button>
                 {showColorPicker && (
                   <button
+                    ref={colorsTriggerRef}
                     type="button"
                     onClick={() => {
                       setColorsMounted(true);
                       setColorsOpen((value) => !value);
+                      setAppearanceOpen(false);
                     }}
                     aria-label="卡片配色"
                     aria-pressed={colorsOpen}
@@ -132,7 +178,7 @@ export function FloatingControls({
                       colorsOpen && "control-toggle is-active",
                     )}
                   >
-                    <Palette size={16} />
+                    <Pipette size={16} />
                   </button>
                 )}
               </>
@@ -179,7 +225,75 @@ export function FloatingControls({
             <MetricColorPicker hidden={collapsed || !colorsOpen} />
           </Suspense>
         )}
-        {showSyncWarning && !collapsed && !colorsOpen && (
+        {appearanceOpen && !collapsed && (
+          <div className="appearance-picker" aria-label="外观设置">
+            <div className="appearance-picker-head">
+              <div>
+                <div className="appearance-picker-title">外观</div>
+                <div className="appearance-picker-summary">
+                  {currentStyle.label} / {currentAppearanceLabel}
+                  {appearance === "system" && `（当前${resolvedAppearance === "dark" ? "深色" : "浅色"}）`}
+                </div>
+              </div>
+              <Palette size={16} />
+            </div>
+            <div className="appearance-picker-section">
+              <div className="appearance-picker-section-title">明暗模式</div>
+              <div className="appearance-mode-options" role="group" aria-label="明暗模式">
+                {APPEARANCE_OPTIONS.map(({ value, icon: Icon, label }) => (
+                  <button
+                    key={value}
+                    type="button"
+                    data-active={appearance === value ? "true" : "false"}
+                    aria-pressed={appearance === value}
+                    onClick={() => setAppearance(value)}
+                  >
+                    <Icon size={14} />
+                    <span>{label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="appearance-picker-section">
+              <div className="appearance-picker-section-title">视觉风格</div>
+              {VISUAL_STYLE_OPTIONS.map(({ value, icon: Icon, label, description, swatches }) => (
+              <button
+                key={value}
+                type="button"
+                className="visual-style-option"
+                data-style={value}
+                data-active={visualStyle === value ? "true" : "false"}
+                aria-pressed={visualStyle === value}
+                onClick={() => setVisualStyle(value)}
+              >
+                <Icon size={15} />
+                <span className="visual-style-option-copy">
+                  <span>{label}</span>
+                  <small>{description}</small>
+                </span>
+                <span className="visual-style-swatches" aria-hidden>
+                  {swatches.map((color) => (
+                    <i key={color} style={{ background: color }} />
+                  ))}
+                </span>
+                {visualStyle === value && <Check size={14} />}
+              </button>
+              ))}
+            </div>
+            <button
+              type="button"
+              className="visual-style-default"
+              data-active={followsDefaultVisualStyle ? "true" : "false"}
+              aria-pressed={followsDefaultVisualStyle}
+              onClick={followDefaultVisualStyle}
+            >
+              <RotateCcw size={15} />
+              <span>跟随站点默认</span>
+              {followsDefaultVisualStyle && <Check size={14} />}
+            </button>
+          </div>
+        )}
+        {showSyncWarning && !collapsed && !colorsOpen && !appearanceOpen && (
           <div className="floating-controls-sync-warning pointer-events-none flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--status-offline)_32%,transparent)] bg-[color-mix(in_srgb,var(--surface-a)_90%,transparent)] px-3 py-1 text-[11px] font-medium text-[var(--status-offline)] shadow-[0_10px_25px_-18px_rgba(0,0,0,0.8)] backdrop-blur">
             <AlertTriangle size={12} />
             <span>实时状态同步异常，当前展示的是最近缓存</span>

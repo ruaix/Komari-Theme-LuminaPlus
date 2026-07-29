@@ -1,21 +1,32 @@
 import { useCallback, useEffect, useSyncExternalStore } from "react";
 import { useThemeSettings } from "@/hooks/useThemeSettings";
 import { subscribeMediaQuery } from "@/utils/mediaQuery";
-import { isAppearance, type Appearance } from "@/utils/themeSettings";
+import {
+  isAppearance,
+  isVisualStyle,
+  type Appearance,
+  type VisualStyle,
+} from "@/utils/themeSettings";
 
 type ResolvedAppearance = "light" | "dark";
 const APPEARANCE_STORAGE_KEY = "appearance";
 const APPEARANCE_DEFAULT_STORAGE_KEY = "appearance_default";
+const VISUAL_STYLE_STORAGE_KEY = "komaritheme:visual-style";
+const VISUAL_STYLE_DEFAULT_STORAGE_KEY = "komaritheme:visual-style-default";
 const SYSTEM_DARK_QUERY = "(prefers-color-scheme: dark)";
 
 interface PrefsState {
   appearance: Appearance;
   resolvedAppearance: ResolvedAppearance;
+  visualStyle: VisualStyle;
+  followsDefaultVisualStyle: boolean;
 }
 
 const DEFAULTS: PrefsState = {
   appearance: "system",
   resolvedAppearance: "dark",
+  visualStyle: "lumina",
+  followsDefaultVisualStyle: true,
 };
 
 let themeFlipTimer: number | null = null;
@@ -86,6 +97,42 @@ function persistDefaultAppearance(value: Appearance) {
   writeStorageItem(APPEARANCE_DEFAULT_STORAGE_KEY, JSON.stringify(value));
 }
 
+function parseStoredVisualStyle(raw: string | null): VisualStyle | null {
+  if (raw == null) return null;
+  if (isVisualStyle(raw)) return raw;
+  try {
+    const parsed = JSON.parse(raw);
+    return isVisualStyle(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function readStoredVisualStyle() {
+  const explicit = parseStoredVisualStyle(readStorageItem(VISUAL_STYLE_STORAGE_KEY));
+  const fallback =
+    parseStoredVisualStyle(readStorageItem(VISUAL_STYLE_DEFAULT_STORAGE_KEY)) ??
+    DEFAULTS.visualStyle;
+  return {
+    visualStyle: explicit ?? fallback,
+    followsDefaultVisualStyle: explicit == null,
+  };
+}
+
+function persistDefaultVisualStyle(value: VisualStyle) {
+  writeStorageItem(VISUAL_STYLE_DEFAULT_STORAGE_KEY, value);
+}
+
+function persistVisualStyle(value: VisualStyle) {
+  writeStorageItem(VISUAL_STYLE_STORAGE_KEY, value);
+}
+
+function clearStoredVisualStyle() {
+  try {
+    localStorage.removeItem(VISUAL_STYLE_STORAGE_KEY);
+  } catch {}
+}
+
 const listeners = new Set<() => void>();
 let snapshot: PrefsState = { ...DEFAULTS };
 
@@ -115,6 +162,10 @@ function applyResolvedAppearance(resolvedAppearance: ResolvedAppearance) {
   }
 }
 
+function applyVisualStyle(visualStyle: VisualStyle) {
+  document.documentElement.dataset.visualStyle = visualStyle;
+}
+
 function commit(next: Partial<PrefsState>) {
   const merged: PrefsState = { ...snapshot, ...next };
   if (next.appearance) {
@@ -122,15 +173,21 @@ function commit(next: Partial<PrefsState>) {
   }
   if (
     snapshot.appearance === merged.appearance &&
-    snapshot.resolvedAppearance === merged.resolvedAppearance
+    snapshot.resolvedAppearance === merged.resolvedAppearance &&
+    snapshot.visualStyle === merged.visualStyle &&
+    snapshot.followsDefaultVisualStyle === merged.followsDefaultVisualStyle
   ) {
     return;
   }
-  if (snapshot.resolvedAppearance !== merged.resolvedAppearance) {
+  if (
+    snapshot.resolvedAppearance !== merged.resolvedAppearance ||
+    snapshot.visualStyle !== merged.visualStyle
+  ) {
     markThemeFlip();
   }
   snapshot = merged;
   applyResolvedAppearance(merged.resolvedAppearance);
+  applyVisualStyle(merged.visualStyle);
   emit();
 }
 
@@ -169,6 +226,7 @@ function clearSystemListeners() {
 
 function initializeAppearance() {
   const stored = readStoredAppearance();
+  const storedVisualStyle = readStoredVisualStyle();
   hasExplicitAppearancePreference = stored.hasExplicitPreference;
   if (stored.hasExplicitPreference) {
     persistAppearance(stored.appearance);
@@ -176,8 +234,10 @@ function initializeAppearance() {
   snapshot = {
     appearance: stored.appearance,
     resolvedAppearance: resolveAppearance(stored.appearance),
+    ...storedVisualStyle,
   };
   applyResolvedAppearance(snapshot.resolvedAppearance);
+  applyVisualStyle(snapshot.visualStyle);
 }
 
 if (typeof window !== "undefined" && typeof document !== "undefined") {
@@ -210,15 +270,39 @@ export function usePreferences() {
     commit({ appearance: defaultAppearance });
   }, [themeSettings.defaultAppearance, themeSettings.isReady]);
 
+  useEffect(() => {
+    if (!themeSettings.isReady) return;
+    persistDefaultVisualStyle(themeSettings.visualStyle);
+    if (!snapshot.followsDefaultVisualStyle) return;
+    commit({ visualStyle: themeSettings.visualStyle });
+  }, [themeSettings.isReady, themeSettings.visualStyle]);
+
   const setAppearance = useCallback((a: Appearance) => {
     hasExplicitAppearancePreference = true;
     persistAppearance(a);
     commit({ appearance: a });
   }, []);
 
+  const setVisualStyle = useCallback((visualStyle: VisualStyle) => {
+    persistVisualStyle(visualStyle);
+    commit({ visualStyle, followsDefaultVisualStyle: false });
+  }, []);
+
+  const followDefaultVisualStyle = useCallback(() => {
+    clearStoredVisualStyle();
+    const visualStyle =
+      parseStoredVisualStyle(readStorageItem(VISUAL_STYLE_DEFAULT_STORAGE_KEY)) ??
+      DEFAULTS.visualStyle;
+    commit({ visualStyle, followsDefaultVisualStyle: true });
+  }, []);
+
   return {
     appearance: state.appearance,
     resolvedAppearance: state.resolvedAppearance,
+    visualStyle: state.visualStyle,
+    followsDefaultVisualStyle: state.followsDefaultVisualStyle,
     setAppearance,
+    setVisualStyle,
+    followDefaultVisualStyle,
   };
 }

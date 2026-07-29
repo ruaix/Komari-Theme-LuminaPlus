@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 
 const homeCss = readFileSync(new URL("../home.css", import.meta.url), "utf8");
 const surfaceCss = readFileSync(new URL("../surface.css", import.meta.url), "utf8");
+const visualStylesCss = readFileSync(new URL("../visual-styles.css", import.meta.url), "utf8");
 const homeSource = readFileSync(new URL("../../pages/Home.tsx", import.meta.url), "utf8");
 const controlsSource = readFileSync(
   new URL("../../components/shell/FloatingControls.tsx", import.meta.url),
@@ -36,6 +37,17 @@ describe("home responsive layout contracts", () => {
     expect(surfaceCss).toMatch(/padding-right:\s*max\(var\(--app-gutter\)/);
   });
 
+  it("keeps visual styles as a skin without changing card layout geometry", () => {
+    expect(visualStylesCss).not.toMatch(/\.server-card\s*>\s*\*/);
+    expect(visualStylesCss).not.toMatch(/\.compact-node-card\s*>\s*\*/);
+    expect(visualStylesCss).not.toMatch(/\.mini-node-card\s*>\s*\*/);
+    expect(visualStylesCss).not.toMatch(/\.overview-card\s*>\s*\*/);
+    expect(visualStylesCss).not.toMatch(/(?:padding|gap|min-height|grid-template-columns):[^;]+;/);
+    expect(visualStylesCss).not.toMatch(/\.metric-track[^}]*\{[^}]*border:/s);
+    expect(visualStylesCss).not.toMatch(/\.compact-node-gauge-track[^}]*\{[^}]*border:/s);
+    expect(visualStylesCss).toContain("--visual-border-width: 1px");
+  });
+
   it("enforces the mini card width floor before adding another fixed column", () => {
     expect(homeCss).toContain("minmax(var(--mini-card-min-width, 260px), 1fr)");
     for (const breakpoint of [1440, 1150, 860, 580]) {
@@ -45,6 +57,11 @@ describe("home responsive layout contracts", () => {
 
   it("resets child panels on collapse and keeps home-only routing out of controls", () => {
     expect(controlsSource).toContain("if (nextCollapsed) setColorsOpen(false)");
+    expect(controlsSource).toContain("if (nextCollapsed) setAppearanceOpen(false)");
+    expect(controlsSource).toContain('aria-label="外观设置"');
+    expect(controlsSource).not.toContain('className="control-group floating-controls-appearance"');
+    expect(controlsSource).toContain('document.addEventListener("pointerdown", handlePointerDown)');
+    expect(controlsSource).toContain('event.key !== "Escape"');
     expect(controlsSource).not.toContain("useLocation");
     expect(controlsSource).not.toContain("useSearchParams");
     expect(controlsSource).not.toContain("usePublicConfig");

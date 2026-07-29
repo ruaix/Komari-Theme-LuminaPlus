@@ -1,19 +1,9 @@
 import { memo, type CSSProperties, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import {
-  ArrowDown,
-  ArrowUp,
-  CircleDollarSign,
-  Clock3,
-  Cpu,
-  Gauge,
-  HardDrive,
-  MemoryStick,
-  Unplug,
-} from "lucide-react";
 import { clsx } from "clsx";
 import { Flag } from "@/components/ui/Flag";
 import { OsLogo } from "@/components/ui/OsLogo";
+import { PixelMetricIcon } from "@/components/ui/PixelMetricIcon";
 import { IpStackBadges } from "./IpStackBadges";
 import { useNodeCardModel } from "@/hooks/useNodeCardModel";
 import { usePreferences } from "@/hooks/usePreferences";
@@ -67,7 +57,7 @@ function MiniChips({
     <div className="mini-node-chip-row">
       {renewalPrice && (
         <span className="mini-node-price-tag" title={`续费价格 ${renewalPrice}`}>
-          <CircleDollarSign size={11} strokeWidth={2.2} />
+          <PixelMetricIcon kind="price" size={11} />
           {renewalPrice}
         </span>
       )}
@@ -116,7 +106,7 @@ function MiniMetricBar({
     <div className="metric-item mini-metric-item">
       <div className="mini-metric-head">
         <span className="mini-metric-label">
-          {icon}
+          <span className="metric-icon">{icon}</span>
           {label}
         </span>
         <span className="mini-metric-value tabular" title={`${label} ${fullValue}`}>
@@ -139,7 +129,7 @@ function MiniVitals({
   return (
     <div className="mini-node-vitals">
       <MiniMetricBar
-        icon={<Cpu size={12} strokeWidth={2} />}
+        icon={<PixelMetricIcon kind="cpu" size={12} />}
         label="CPU"
         valueText={node.cpuPct.toFixed(node.cpuPct >= 10 ? 0 : 1)}
         unit="%"
@@ -147,7 +137,7 @@ function MiniVitals({
         paint="var(--progress-cpu)"
       />
       <MiniMetricBar
-        icon={<MemoryStick size={12} strokeWidth={2} />}
+        icon={<PixelMetricIcon kind="memory" size={12} />}
         label="内存"
         valueText={node.ramPct.toFixed(node.ramPct >= 10 ? 0 : 1)}
         unit="%"
@@ -155,7 +145,7 @@ function MiniVitals({
         paint="var(--progress-memory)"
       />
       <MiniMetricBar
-        icon={<HardDrive size={12} strokeWidth={2} />}
+        icon={<PixelMetricIcon kind="disk" size={12} />}
         label="磁盘"
         valueText={node.diskPct.toFixed(node.diskPct >= 10 ? 0 : 1)}
         unit="%"
@@ -163,7 +153,7 @@ function MiniVitals({
         paint="var(--progress-disk)"
       />
       <MiniMetricBar
-        icon={<Gauge size={12} strokeWidth={2} />}
+        icon={<PixelMetricIcon kind="load" size={12} />}
         label="负载"
         valueText={node.load1.toFixed(2)}
         fraction={loadFraction}
@@ -216,14 +206,14 @@ function MiniFlow({
     <div className="mini-node-flow">
       <div className="mini-node-flow-group" aria-label="实时网速">
         <MiniFlowRow
-          icon={<ArrowUp size={12} strokeWidth={2.4} />}
+          icon={<PixelMetricIcon kind="upload" size={12} />}
           value={upRate.value}
           unit={upRate.unit}
           color={speedRateColor(upRate.unit)}
           title="实时上行"
         />
         <MiniFlowRow
-          icon={<ArrowDown size={12} strokeWidth={2.4} />}
+          icon={<PixelMetricIcon kind="download" size={12} />}
           value={downRate.value}
           unit={downRate.unit}
           color={speedRateColor(downRate.unit)}
@@ -232,12 +222,12 @@ function MiniFlow({
       </div>
       <div className="mini-node-flow-group" aria-label="累计流量">
         <MiniFlowRow
-          icon={<ArrowUp size={12} strokeWidth={2.2} />}
+          icon={<PixelMetricIcon kind="outbound" size={12} />}
           value={formatBytes(node.trafficUp)}
           title="累计上行"
         />
         <MiniFlowRow
-          icon={<ArrowDown size={12} strokeWidth={2.2} />}
+          icon={<PixelMetricIcon kind="inbound" size={12} />}
           value={formatBytes(node.trafficDown)}
           title="累计下行"
         />
@@ -321,10 +311,13 @@ const MiniHealth = memo(function MiniHealth({
       <div className="mini-node-health-item">
         <div className="mini-node-health-head">
           <span className="mini-node-health-label">
-            <Clock3 size={12} strokeWidth={2} />
+            <PixelMetricIcon kind="latency" size={12} />
             延迟
           </span>
-          <strong className="mini-node-health-value tabular" style={{ color: latencyColor }}>
+          <strong
+            className="mini-node-health-value tabular"
+            style={{ color: latencyColor, "--health-value-color": latencyColor } as CSSProperties}
+          >
             {ping.lastValue != null ? (
               <>
                 {Math.round(ping.lastValue)}
@@ -340,10 +333,13 @@ const MiniHealth = memo(function MiniHealth({
       <div className="mini-node-health-item">
         <div className="mini-node-health-head">
           <span className="mini-node-health-label">
-            <Unplug size={12} strokeWidth={2} />
+            <PixelMetricIcon kind="loss" size={12} />
             丢包
           </span>
-          <strong className="mini-node-health-value tabular" style={{ color: lossColor }}>
+          <strong
+            className="mini-node-health-value tabular"
+            style={{ color: lossColor, "--health-value-color": lossColor } as CSSProperties}
+          >
             {ping.loss != null ? (
               <>
                 {ping.loss.toFixed(1)}

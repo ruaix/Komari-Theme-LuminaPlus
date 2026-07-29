@@ -2,6 +2,15 @@ import { describe, expect, it } from "vitest";
 import { normalizeThemeSettings } from "@/utils/themeSettings";
 
 describe("normalizeThemeSettings", () => {
+  it("normalizes the visual style and defaults to Lumina", () => {
+    expect(normalizeThemeSettings({}).visualStyle).toBe("lumina");
+    expect(normalizeThemeSettings({ visualStyle: "pastoral" }).visualStyle).toBe("pastoral");
+    expect(normalizeThemeSettings({ visualStyle: "cavern" }).visualStyle).toBe("cavern");
+    expect(normalizeThemeSettings({ visualStyle: "unknown" } as never).visualStyle).toBe(
+      "lumina",
+    );
+  });
+
   it("keeps mini and falls unknown saved view modes back to compact", () => {
     const settings = normalizeThemeSettings({
       desktopNodeViewMode: "retired-view",

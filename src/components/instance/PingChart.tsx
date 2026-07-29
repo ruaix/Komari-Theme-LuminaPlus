@@ -9,6 +9,7 @@ import {
   colorForSeries,
   createTimeAxisFormatter,
   getAxisColors,
+  getChartAxisFont,
   toChartSeconds,
   useResponsiveChartSize,
   type ChartTooltipState,
@@ -328,6 +329,7 @@ export function PingChart({
       },
       axes: [
         {
+          font: getChartAxisFont(),
           stroke: text,
           grid: { stroke: grid, width: 1 },
           ticks: { stroke: grid },
@@ -335,6 +337,7 @@ export function PingChart({
           values: createTimeAxisFormatter(hours),
         },
         {
+          font: getChartAxisFont(),
           stroke: text,
           grid: { stroke: grid, width: 1 },
           ticks: { stroke: grid },

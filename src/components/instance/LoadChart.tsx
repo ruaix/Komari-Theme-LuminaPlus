@@ -20,6 +20,7 @@ import {
   createTimeAxisFormatter,
   formatChartCoverageTime,
   getAxisColors,
+  getChartAxisFont,
   toChartSeconds,
   useResponsiveChartSize,
   type ChartTooltipState,
@@ -198,6 +199,7 @@ function buildBaseOptions({
     },
     axes: [
       {
+        font: getChartAxisFont(),
         stroke: text,
         grid: { stroke: grid, width: 1 },
         ticks: { stroke: grid },
@@ -205,6 +207,7 @@ function buildBaseOptions({
         values: createTimeAxisFormatter(rangeHours),
       },
       {
+        font: getChartAxisFont(),
         stroke: text,
         grid: { stroke: grid, width: 1 },
         ticks: { stroke: grid },

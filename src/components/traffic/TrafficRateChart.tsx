@@ -8,6 +8,7 @@ import {
   CHART_PALETTE,
   createTimeAxisFormatter,
   getAxisColors,
+  getChartAxisFont,
   useResponsiveChartSize,
   type ChartTooltipState,
 } from "@/components/instance/chartShared";
@@ -82,6 +83,7 @@ export function TrafficRateChart({ samples }: { samples: TodayTrafficSample[] })
       },
       axes: [
         {
+          font: getChartAxisFont(),
           stroke: text,
           grid: { stroke: grid, width: 1 },
           ticks: { stroke: grid },
@@ -89,6 +91,7 @@ export function TrafficRateChart({ samples }: { samples: TodayTrafficSample[] })
           values: createTimeAxisFormatter(24),
         },
         {
+          font: getChartAxisFont(),
           stroke: text,
           grid: { stroke: grid, width: 1 },
           ticks: { stroke: grid },

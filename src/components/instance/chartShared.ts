@@ -58,6 +58,16 @@ export function getAxisColors(isDark: boolean): { grid: string; text: string } {
   };
 }
 
+export function getChartAxisFont(): string | undefined {
+  if (
+    typeof document !== "undefined" &&
+    document.documentElement.dataset.visualStyle === "pastoral"
+  ) {
+    return '12px "Ark Pixel 12px", monospace';
+  }
+  return undefined;
+}
+
 // uPlot 图表 (LoadChart / PingChart) 共享的悬停 tooltip 状态结构。
 export interface ChartTooltipState {
   show: boolean;

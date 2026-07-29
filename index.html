@@ -55,6 +55,25 @@
         if (meta) meta.content = resolved === "dark" ? "#000000" : "#F5F5F7";
 
         try {
+          const visualStyles = new Set(["lumina", "pastoral", "cavern"]);
+          const readVisualStyle = (key) => {
+            const raw = localStorage.getItem(key);
+            if (raw == null) return null;
+            let value = raw;
+            try {
+              value = JSON.parse(raw);
+            } catch {}
+            return visualStyles.has(value) ? value : null;
+          };
+          document.documentElement.dataset.visualStyle =
+            readVisualStyle("komaritheme:visual-style") ??
+            readVisualStyle("komaritheme:visual-style-default") ??
+            "lumina";
+        } catch {
+          document.documentElement.dataset.visualStyle = "lumina";
+        }
+
+        try {
           const rawDepth = localStorage.getItem("komaritheme:dark-depth");
           if (rawDepth != null) {
             const parsedDepth = Number(rawDepth);

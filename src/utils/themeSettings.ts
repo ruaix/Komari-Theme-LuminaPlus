@@ -29,10 +29,12 @@ import {
 } from "@/utils/pingTasks";
 
 export type Appearance = "system" | "light" | "dark";
+export type VisualStyle = "lumina" | "pastoral" | "cavern";
 export type NodeViewMode = "large" | "compact" | "mini" | "list";
 
 export interface ResolvedThemeSettings {
   defaultAppearance: Appearance;
+  visualStyle: VisualStyle;
   desktopNodeViewMode: NodeViewMode;
   mobileNodeViewMode: NodeViewMode;
   enableAdminButton: boolean;
@@ -75,6 +77,7 @@ export interface ResolvedThemeSettings {
 
 export const DEFAULT_THEME_SETTINGS: ResolvedThemeSettings = {
   defaultAppearance: "system",
+  visualStyle: "lumina",
   desktopNodeViewMode: "large",
   mobileNodeViewMode: "compact",
   enableAdminButton: true,
@@ -117,6 +120,14 @@ export const DEFAULT_THEME_SETTINGS: ResolvedThemeSettings = {
 
 export function isAppearance(value: unknown): value is Appearance {
   return value === "system" || value === "light" || value === "dark";
+}
+
+export function isVisualStyle(value: unknown): value is VisualStyle {
+  return value === "lumina" || value === "pastoral" || value === "cavern";
+}
+
+function normalizeVisualStyle(value: unknown): VisualStyle {
+  return isVisualStyle(value) ? value : DEFAULT_THEME_SETTINGS.visualStyle;
 }
 
 function normalizeAppearance(
@@ -179,6 +190,7 @@ export function normalizeThemeSettings(
   );
   return {
     defaultAppearance: normalizeAppearance(settings?.defaultAppearance),
+    visualStyle: normalizeVisualStyle(settings?.visualStyle),
     desktopNodeViewMode: normalizeNodeViewMode(
       settings?.desktopNodeViewMode,
       DEFAULT_THEME_SETTINGS.desktopNodeViewMode,

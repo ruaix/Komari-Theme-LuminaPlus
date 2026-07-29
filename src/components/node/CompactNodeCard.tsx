@@ -1,23 +1,10 @@
 import { memo, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { Link } from "react-router-dom";
-import {
-  ArrowDown,
-  ArrowUp,
-  Calendar,
-  CircleDollarSign,
-  Clock3,
-  Cpu,
-  Database,
-  Gauge,
-  HardDrive,
-  MemoryStick,
-  Network,
-  Unplug,
-} from "lucide-react";
 import { clsx } from "clsx";
 import { Flag } from "@/components/ui/Flag";
 import { OsLogo } from "@/components/ui/OsLogo";
+import { PixelMetricIcon } from "@/components/ui/PixelMetricIcon";
 import { useNodeCardModel } from "@/hooks/useNodeCardModel";
 import { useThemeSettings } from "@/hooks/useThemeSettings";
 import { formatBytes } from "@/utils/format";
@@ -91,7 +78,7 @@ function CompactGauge({
     >
       <div className="compact-node-gauge-head">
         <span className="compact-node-gauge-label">
-          {icon}
+          <span className="metric-icon">{icon}</span>
           <span>{label}</span>
         </span>
         <strong className="tabular">{value}</strong>
@@ -317,7 +304,10 @@ function CompactHealthItem({
           {icon}
           {label}
         </span>
-        <strong className="compact-node-health-value tabular" style={{ color }}>
+        <strong
+          className="compact-node-health-value tabular"
+          style={{ color, "--health-value-color": color } as CSSProperties}
+        >
           {value}
           {unit && <small>{unit}</small>}
         </strong>
@@ -413,7 +403,7 @@ function CompactNodeVitals({
   return (
     <div className="compact-node-vitals">
       <CompactGauge
-        icon={<Cpu size={12} />}
+        icon={<PixelMetricIcon kind="cpu" size={12} />}
         label="CPU"
         value={formatCompactPercent(node.cpuPct)}
         detail={`${node.cpu_cores || 0} 核`}
@@ -421,7 +411,7 @@ function CompactNodeVitals({
         color="var(--progress-cpu)"
       />
       <CompactGauge
-        icon={<MemoryStick size={12} />}
+        icon={<PixelMetricIcon kind="memory" size={12} />}
         label="内存"
         value={formatCompactPercent(node.ramPct)}
         detail={`${formatBytes(node.ramUsed)} / ${formatBytes(node.ramTotal)}`}
@@ -429,7 +419,7 @@ function CompactNodeVitals({
         color="var(--progress-memory)"
       />
       <CompactGauge
-        icon={<HardDrive size={12} />}
+        icon={<PixelMetricIcon kind="disk" size={12} />}
         label="磁盘"
         value={formatCompactPercent(node.diskPct)}
         detail={`${formatBytes(node.diskUsed)} / ${formatBytes(node.diskTotal)}`}
@@ -437,7 +427,7 @@ function CompactNodeVitals({
         color="var(--progress-disk)"
       />
       <CompactGauge
-        icon={<Gauge size={12} />}
+        icon={<PixelMetricIcon kind="load" size={12} />}
         label="负载"
         value={node.load1.toFixed(2)}
         detail={`${node.load5.toFixed(2)} / ${node.load15.toFixed(2)}`}
@@ -484,13 +474,13 @@ function CompactNodeInfoStrip({
         color="var(--progress-cpu)"
       >
         <CompactInfoRow
-          icon={<ArrowUp size={12} strokeWidth={2.3} />}
+          icon={<PixelMetricIcon kind="upload" size={12} />}
           value={upRate.value}
           unit={upRate.unit}
           color={speedRateColor(upRate.unit)}
         />
         <CompactInfoRow
-          icon={<ArrowDown size={12} strokeWidth={2.3} />}
+          icon={<PixelMetricIcon kind="download" size={12} />}
           value={downRate.value}
           unit={downRate.unit}
           color={speedRateColor(downRate.unit)}
@@ -503,23 +493,11 @@ function CompactNodeInfoStrip({
           color="var(--text-primary)"
         >
           <CompactInfoRow
-            icon={(
-              <ArrowUp
-                size={12}
-                strokeWidth={2.5}
-                aria-label="上行"
-              />
-            )}
+            icon={<PixelMetricIcon kind="outbound" size={12} />}
             value={formatBytes(node.trafficUp)}
           />
           <CompactInfoRow
-            icon={(
-              <ArrowDown
-                size={12}
-                strokeWidth={2.5}
-                aria-label="下行"
-              />
-            )}
+            icon={<PixelMetricIcon kind="inbound" size={12} />}
             value={formatBytes(node.trafficDown)}
           />
         </CompactInfoTile>
@@ -530,12 +508,12 @@ function CompactNodeInfoStrip({
           color="var(--status-success)"
         >
           <CompactInfoRow
-            icon={<Calendar size={12} strokeWidth={2.1} />}
+            icon={<PixelMetricIcon kind="expiry" size={12} />}
             value={formatCompactExpire(expire)}
             color={expireColor}
           />
           <CompactInfoRow
-            icon={<CircleDollarSign size={12} strokeWidth={2.2} />}
+            icon={<PixelMetricIcon kind="price" size={12} />}
             value={renewalPrice || "未填"}
             color={renewalPrice ? "var(--status-success)" : "var(--text-tertiary)"}
           />
@@ -544,13 +522,13 @@ function CompactNodeInfoStrip({
       {showConnections && (
         <CompactInfoTile label="连接数" color="var(--progress-network)">
           <CompactInfoRow
-            icon={<Network size={12} strokeWidth={2.1} />}
+            icon={<PixelMetricIcon kind="connections" size={12} />}
             label="TCP"
             value={node.connectionsTcp.toLocaleString()}
             color="var(--progress-network)"
           />
           <CompactInfoRow
-            icon={<Network size={12} strokeWidth={2.1} />}
+            icon={<PixelMetricIcon kind="connections" size={12} />}
             label="UDP"
             value={node.connectionsUdp.toLocaleString()}
           />
@@ -590,7 +568,7 @@ function CompactTrafficBar({
         {uptimeLabel ? (
           <>
             <span className="compact-node-traffic-label">
-              <Database size={12} strokeWidth={2.1} />
+              <PixelMetricIcon kind="quota" size={12} />
               <span>流量</span>
             </span>
             <div className="compact-node-gauge-track" aria-hidden />
@@ -601,7 +579,7 @@ function CompactTrafficBar({
           <>
             <div className="compact-node-traffic-head">
               <span className="compact-node-traffic-label">
-                <Database size={12} strokeWidth={2.1} />
+                <PixelMetricIcon kind="quota" size={12} />
                 <span>流量</span>
               </span>
               <span className="compact-node-traffic-value">{traffic.detail}</span>
@@ -635,7 +613,7 @@ const CompactNodeHealth = memo(function CompactNodeHealth({
   return (
     <div className="compact-node-bottom">
       <CompactHealthItem
-        icon={<Clock3 size={12} />}
+        icon={<PixelMetricIcon kind="latency" size={12} />}
         label="延迟"
         value={ping.lastValue != null ? Math.round(ping.lastValue).toString() : emptyText}
         unit={ping.lastValue != null ? "ms" : undefined}
@@ -644,7 +622,7 @@ const CompactNodeHealth = memo(function CompactNodeHealth({
         <HealthBars buckets={pingBuckets} max={ping.max} kind="latency" />
       </CompactHealthItem>
       <CompactHealthItem
-        icon={<Unplug size={12} />}
+        icon={<PixelMetricIcon kind="loss" size={12} />}
         label="丢包"
         value={ping.loss != null ? ping.loss.toFixed(1) : emptyText}
         unit={ping.loss != null ? "%" : undefined}

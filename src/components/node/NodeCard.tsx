@@ -1,21 +1,5 @@
-import { memo, useCallback, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { memo, useCallback, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import {
-  Cpu,
-  Gauge,
-  MemoryStick,
-  HardDrive,
-  Globe,
-  ArrowDown,
-  ArrowUp,
-  Clock3,
-  Unplug,
-  Calendar,
-  RefreshCw,
-  CircleDollarSign,
-  Database,
-  Network,
-} from "lucide-react";
 import { useNodeCardModel } from "@/hooks/useNodeCardModel";
 import { usePreferences } from "@/hooks/usePreferences";
 import { useMetricColorsVersion } from "@/hooks/useMetricColors";
@@ -27,6 +11,7 @@ import {
 } from "@/utils/metricTone";
 import { Flag } from "@/components/ui/Flag";
 import { OsLogo } from "@/components/ui/OsLogo";
+import { PixelMetricIcon } from "@/components/ui/PixelMetricIcon";
 import { MetricBar } from "./MetricBar";
 import { LatencyBars } from "./LatencyBars";
 import { QualityBars } from "./QualityBars";
@@ -139,13 +124,13 @@ export const NodeCard = memo(function NodeCard({
           {showConnections && (
             <div className="card-metric-section card-metric-divided server-card-meta-grid">
               <FooterStat
-                icon={<Network size={13} strokeWidth={2} />}
+                icon={<PixelMetricIcon kind="connections" size={13} />}
                 label="TCP 连接"
                 value={node.connectionsTcp.toLocaleString()}
                 color="var(--progress-network)"
               />
               <FooterStat
-                icon={<Network size={13} strokeWidth={2} />}
+                icon={<PixelMetricIcon kind="connections" size={13} />}
                 label="UDP 连接"
                 value={node.connectionsUdp.toLocaleString()}
                 color="var(--progress-network)"
@@ -245,7 +230,7 @@ function NodeMetricSection({
   return (
     <div className="card-metric-section server-metric-grid">
       <MetricBar
-        icon={<Cpu size={13} strokeWidth={2} />}
+        icon={<PixelMetricIcon kind="cpu" />}
         label="CPU"
         valueText={node.cpuPct.toFixed(2)}
         unit="%"
@@ -255,7 +240,7 @@ function NodeMetricSection({
         paint="var(--progress-cpu)"
       />
       <MetricBar
-        icon={<MemoryStick size={13} strokeWidth={2} />}
+        icon={<PixelMetricIcon kind="memory" />}
         label="内存"
         valueText={node.ramPct.toFixed(2)}
         unit="%"
@@ -265,7 +250,7 @@ function NodeMetricSection({
         paint="var(--progress-memory)"
       />
       <MetricBar
-        icon={<HardDrive size={13} strokeWidth={2} />}
+        icon={<PixelMetricIcon kind="disk" />}
         label="磁盘"
         valueText={node.diskPct.toFixed(1)}
         unit="%"
@@ -275,7 +260,7 @@ function NodeMetricSection({
         paint="var(--progress-disk)"
       />
       <MetricBar
-        icon={<Gauge size={13} strokeWidth={2} />}
+        icon={<PixelMetricIcon kind="load" />}
         label="负载"
         valueText={node.load1.toFixed(2)}
         fraction={loadFraction}
@@ -313,7 +298,7 @@ function NodeTrafficSection({
         active={node.netUp > 0}
         redrawKey={redrawKey}
         color="var(--traffic-up)"
-        icon={<ArrowUp size={15} strokeWidth={2.4} />}
+        icon={<PixelMetricIcon kind="upload" />}
       />
       <TrafficStat
         direction="下行"
@@ -325,7 +310,7 @@ function NodeTrafficSection({
         active={node.netDown > 0}
         redrawKey={redrawKey}
         color="var(--traffic-down)"
-        icon={<ArrowDown size={15} strokeWidth={2.4} />}
+        icon={<PixelMetricIcon kind="download" />}
       />
     </div>
   );
@@ -380,7 +365,7 @@ const NodeTrafficQuota = memo(function NodeTrafficQuota({
     >
       <div className="traffic-quota-head">
         <span className="traffic-quota-label">
-          <Database size={13} strokeWidth={2} />
+          <PixelMetricIcon kind="quota" size={13} />
           <span>剩余流量</span>
           <strong className="traffic-quota-remain">{remainingLabel}</strong>
         </span>
@@ -446,10 +431,13 @@ const NodeHealthSection = memo(function NodeHealthSection({
       <div className="server-health-block">
         <div className="server-health-head">
           <div className="server-health-label">
-            <Clock3 size={13} strokeWidth={2} />
+            <PixelMetricIcon kind="latency" size={13} />
             <span>延迟</span>
           </div>
-          <span className="server-health-value tabular" style={{ color: latencyColor }}>
+          <span
+            className="server-health-value tabular"
+            style={{ color: latencyColor, "--health-value-color": latencyColor } as CSSProperties}
+          >
             {ping.lastValue != null ? (
               <>
                 {Math.round(ping.lastValue)}
@@ -483,10 +471,13 @@ const NodeHealthSection = memo(function NodeHealthSection({
       <div className="server-health-block">
         <div className="server-health-head">
           <div className="server-health-label">
-            <Unplug size={13} strokeWidth={2} />
+            <PixelMetricIcon kind="loss" size={13} />
             <span>丢包率</span>
           </div>
-          <span className="server-health-value tabular" style={{ color: lossColor }}>
+          <span
+            className="server-health-value tabular"
+            style={{ color: lossColor, "--health-value-color": lossColor } as CSSProperties}
+          >
             {ping.loss != null ? (
               <>
                 {ping.loss.toFixed(1)}
@@ -541,7 +532,7 @@ function FooterPriceChip({ renewalPrice, titled }: { renewalPrice: string; title
       className="dstatus-price-chip"
       title={titled ? `续费价格 ${renewalPrice}` : undefined}
     >
-      <CircleDollarSign size={12} strokeWidth={2.2} />
+      <PixelMetricIcon kind="price" size={12} />
       {renewalPrice}
     </span>
   );
@@ -628,14 +619,14 @@ function NodeCardFooter({
     <div className="server-card-footer">
       <div className="server-card-meta-grid">
         <FooterStat
-          icon={<RefreshCw size={13} strokeWidth={2} />}
+          icon={<PixelMetricIcon kind="online" size={13} />}
           label="在线"
           value={uptime.value}
           unit={uptime.unit}
           color="var(--progress-cpu)"
         />
         <FooterStat
-          icon={<Calendar size={13} strokeWidth={2} />}
+          icon={<PixelMetricIcon kind="expiry" size={13} />}
           label="到期"
           value={expire.value}
           unit={expire.unit}
@@ -691,7 +682,7 @@ function TrafficStat({
     <div className="traffic-stat">
       <div className="traffic-stat-head">
         <div className="traffic-stat-label">
-          <span style={{ color }}>{icon}</span>
+          <span className="metric-icon" style={{ color }}>{icon}</span>
           <span style={{ color: speedColor }}>{direction}</span>
         </div>
         <span className="traffic-stat-value tabular" style={{ color: speedColor }}>
@@ -788,10 +779,9 @@ function GlobeArrow({
   direction: "入站" | "出站";
   color: string;
 }) {
-  const isInbound = direction === "入站";
   return (
     <span
-      className="relative inline-flex items-center justify-center"
+      className="metric-icon"
       style={{
         width: 18,
         height: 18,
@@ -799,20 +789,7 @@ function GlobeArrow({
       }}
       aria-hidden
     >
-      <Globe size={15} strokeWidth={1.9} />
-      {isInbound ? (
-        <ArrowDown
-          size={9}
-          strokeWidth={2.4}
-          className="absolute -right-[2px] bottom-[-1px]"
-        />
-      ) : (
-        <ArrowUp
-          size={9}
-          strokeWidth={2.4}
-          className="absolute -right-[2px] bottom-[-1px]"
-        />
-      )}
+      <PixelMetricIcon kind={direction === "入站" ? "inbound" : "outbound"} size={16} />
     </span>
   );
 }

@@ -17,8 +17,11 @@ import {
   Rows3,
   Save,
   Search,
+  Sparkles,
+  Sprout,
   Sun,
   SunMoon,
+  Mountain,
   Wallpaper,
 } from "lucide-react";
 import { clsx } from "clsx";
@@ -83,6 +86,11 @@ const APPEARANCE_OPTIONS = [
   { value: "light", label: "浅色", icon: Sun },
   { value: "system", label: "跟随系统", icon: SunMoon },
   { value: "dark", label: "深色", icon: Moon },
+] as const;
+const VISUAL_STYLE_OPTIONS = [
+  { value: "lumina", label: "Lumina", icon: Sparkles },
+  { value: "pastoral", label: "星露谷风格", icon: Sprout },
+  { value: "cavern", label: "泰拉瑞亚风格", icon: Mountain },
 ] as const;
 const NODE_VIEW_MODE_OPTIONS = [
   { value: "large", label: "大卡片", icon: LayoutGrid },
@@ -258,6 +266,7 @@ function applyAvailableClientAssignments(
 function pickManagedThemeSettings(settings: ResolvedThemeSettings) {
   return {
     defaultAppearance: settings.defaultAppearance,
+    visualStyle: settings.visualStyle,
     desktopNodeViewMode: settings.desktopNodeViewMode,
     mobileNodeViewMode: settings.mobileNodeViewMode,
     homepagePingBindings: settings.homepagePingBindings,
@@ -897,20 +906,53 @@ export function ThemeManage() {
         description="为首次访问或尚未手动切换外观的用户设置默认显示模式；后续仍可在首页右上角按需切换。"
         aside={<LayoutTemplate size={16} />}
       >
-        <div className="instance-segmented is-scrollable">
-          {APPEARANCE_OPTIONS.map(({ value, label, icon: Icon }) => (
-            <button
-              key={value}
-              type="button"
-              data-active={draft.defaultAppearance === value ? "true" : "false"}
-              aria-pressed={draft.defaultAppearance === value}
-              onClick={() => patch("defaultAppearance", value)}
-              className="inline-flex items-center justify-center gap-2"
-            >
-              <Icon size={14} />
-              <span>{label}</span>
-            </button>
-          ))}
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="surface-inset flex flex-col gap-3 px-4 py-4">
+            <div>
+              <div className="text-[13px] font-semibold text-[var(--text-primary)]">明暗模式</div>
+              <div className="mt-1 text-[11px] text-[var(--text-tertiary)]">
+                设置首次访问时使用的明暗外观。
+              </div>
+            </div>
+            <div className="instance-segmented is-scrollable">
+              {APPEARANCE_OPTIONS.map(({ value, label, icon: Icon }) => (
+                <button
+                  key={value}
+                  type="button"
+                  data-active={draft.defaultAppearance === value ? "true" : "false"}
+                  aria-pressed={draft.defaultAppearance === value}
+                  onClick={() => patch("defaultAppearance", value)}
+                  className="inline-flex items-center justify-center gap-2"
+                >
+                  <Icon size={14} />
+                  <span>{label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="surface-inset flex flex-col gap-3 px-4 py-4">
+            <div>
+              <div className="text-[13px] font-semibold text-[var(--text-primary)]">视觉风格</div>
+              <div className="mt-1 text-[11px] text-[var(--text-tertiary)]">
+                访客仍可在首页快捷栏一键覆盖此默认值。
+              </div>
+            </div>
+            <div className="instance-segmented is-scrollable">
+              {VISUAL_STYLE_OPTIONS.map(({ value, label, icon: Icon }) => (
+                <button
+                  key={value}
+                  type="button"
+                  data-active={draft.visualStyle === value ? "true" : "false"}
+                  aria-pressed={draft.visualStyle === value}
+                  onClick={() => patch("visualStyle", value)}
+                  className="inline-flex items-center justify-center gap-2"
+                >
+                  <Icon size={14} />
+                  <span>{label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </InstancePanel>
 
