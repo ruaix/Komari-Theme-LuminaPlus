@@ -278,7 +278,16 @@ function HomeOverviewCards({
           {showDetailButton && <RenewalReminder nodes={renewalNodes} />}
         </div>
         <div className="overview-card-main">
-          <p className="overview-card-value">{remainingValue}</p>
+          <p className="overview-card-value">
+            {costSummary ? (
+              <>
+                <span className="overview-card-currency">¥</span>
+                <span>{remainingValue.replace(/^¥\s*/, "")}</span>
+              </>
+            ) : (
+              remainingValue
+            )}
+          </p>
         </div>
         <div className="overview-card-footer">
           <p className="overview-card-caption">实时汇率计算</p>

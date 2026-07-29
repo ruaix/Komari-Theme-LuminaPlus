@@ -1193,6 +1193,15 @@
   letter-spacing: 0;
 }
 
+:root[data-visual-style="pastoral"] .overview-card[data-metric="asset"] .overview-card-value {
+  max-width: 100%;
+  gap: 1px;
+}
+
+:root[data-visual-style="pastoral"] .overview-card-currency {
+  flex: 0 0 auto;
+}
+
 :root[data-visual-style="pastoral"] .overview-card[data-metric="online"] .overview-card-value {
   font-size: 24px;
 }
@@ -1200,6 +1209,13 @@
 :root[data-visual-style="pastoral"] .overview-card-unit {
   font-size: 13px;
   font-weight: 400;
+}
+
+@media (max-width: 680px) {
+  :root[data-visual-style="pastoral"] .overview-card[data-metric="asset"] .overview-card-value {
+    font-size: 20px;
+    letter-spacing: -0.03em;
+  }
 }
 
 :root[data-visual-style="pastoral"] .metric-item > div:first-child > .tabular {
