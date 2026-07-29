@@ -1,9 +1,9 @@
 {
-  "name": "Komari-Theme-LuminaPlus",
-  "short": "LuminaPlus",
-  "description": "Komari-Theme-LuminaPlus",
+  "name": "Komari-Theme-LuminaPlus-Pixel",
+  "short": "LuminaPlus-Pixel",
+  "description": "Komari-Theme-LuminaPlus-Pixel",
   "version": "1.2.6",
-  "author": "shark&shanyang",
-  "url": "https://github.com/shanyang242/Komari-Theme-LuminaPlus",
+  "author": "shark&shanyang&ruaix",
+  "url": "https://github.com/ruaix/Komari-Theme-LuminaPlus-Pixel",
   "preview": "preview.png"
 }
