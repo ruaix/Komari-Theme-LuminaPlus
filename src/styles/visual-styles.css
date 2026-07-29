@@ -1,0 +1,1309 @@
+/* Game skins only change paint. Card dimensions and content layout remain owned by the base theme. */
+@font-face {
+  font-family: "Ark Pixel 12px";
+  src: url("../assets/fonts/ark-pixel-12px-proportional-zh-cn.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+.themed-metric-icon {
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  vertical-align: middle;
+}
+
+.themed-metric-icon > * {
+  grid-area: 1 / 1;
+}
+
+.themed-metric-icon .pixel-metric-icon {
+  display: none;
+}
+
+:root[data-visual-style="pastoral"] .themed-metric-icon-fallback {
+  display: none;
+}
+
+:root[data-visual-style="pastoral"] .themed-metric-icon .pixel-metric-icon {
+  display: block;
+}
+
+:root {
+  --visual-radius-card: 14px;
+  --visual-radius-panel: 16px;
+  --visual-radius-control: 999px;
+  --visual-border-width: 1px;
+  --visual-panel-shadow: var(--shadow-card);
+}
+
+:root[data-visual-style="pastoral"] {
+  --bg-0: #79b85b;
+  --surface: #f6d994;
+  --surface-elev: #ffe6a8;
+  --surface-sunken: #d8a85f;
+  --border: #a7652f;
+  --border-subtle: rgba(112, 62, 29, 0.28);
+  --border-strong: #6f3c1f;
+  --hairline: rgba(112, 62, 29, 0.38);
+  --text-primary: #4b2818;
+  --text-secondary: #70452b;
+  --text-tertiary: #95663d;
+  --text-on-strong: #fff3bd;
+  --fill-secondary: rgba(100, 55, 27, 0.18);
+  --fill-tertiary: rgba(100, 55, 27, 0.1);
+  --hover-bg: #efc978;
+  --progress-bg: #c89551;
+  --progress-cpu: #3f94c5;
+  --progress-memory: #925eb7;
+  --progress-swap: #6979bd;
+  --progress-disk: #d27432;
+  --progress-network: #4c9846;
+  --progress-load: #c95d76;
+  --status-success: #438a45;
+  --status-warning: #c47c2f;
+  --status-error: #b9473e;
+  --status-info: #3e8cc4;
+  --accent-500: #ce7432;
+  --accent-strong: #8b3f1d;
+  --status-online: #438a45;
+  --status-offline: #b9473e;
+  --traffic-up: #3e8cc4;
+  --traffic-down: #438a45;
+  --ring: rgba(139, 63, 29, 0.5);
+  --visual-radius-card: 6px;
+  --visual-radius-panel: 7px;
+  --visual-radius-control: 5px;
+  --visual-border-width: 1px;
+  --visual-panel-shadow: inset 0 0 0 1px rgba(255, 239, 173, 0.68);
+  --bg-image-desktop: url("/private-assets/pastoral/day-panorama-v2.png");
+  --bg-image-mobile: url("/private-assets/pastoral/day-panorama-v2.png");
+  --bg-size: cover;
+  --bg-position: center top;
+  --bg-scrim: linear-gradient(to bottom, rgba(36, 76, 41, 0.04), rgba(35, 56, 24, 0.22));
+  --canvas-noise: none;
+  --canvas-glow: none;
+}
+
+:root[data-appearance="dark"][data-visual-style="pastoral"] {
+  --bg-0: #071126;
+  --surface: #353342;
+  --surface-elev: #464052;
+  --surface-sunken: #272633;
+  --border: #a77943;
+  --border-subtle: rgba(230, 190, 119, 0.25);
+  --border-strong: #e2b76f;
+  --hairline: rgba(230, 190, 119, 0.28);
+  --text-primary: #fff0bd;
+  --text-secondary: #e4cf9d;
+  --text-tertiary: #bfa878;
+  --text-on-strong: #211c29;
+  --fill-secondary: rgba(244, 215, 153, 0.16);
+  --fill-tertiary: rgba(244, 215, 153, 0.09);
+  --hover-bg: #51485c;
+  --progress-bg: #201e2a;
+  --accent-500: #eea050;
+  --accent-strong: #ffc16c;
+  --visual-panel-shadow: inset 0 0 0 1px rgba(226, 183, 111, 0.34);
+  --bg-image-desktop: url("/private-assets/pastoral/night-panorama.png");
+  --bg-image-mobile: url("/private-assets/pastoral/night-panorama.png");
+  --bg-position: center top;
+  --bg-scrim: linear-gradient(to bottom, rgba(3, 7, 22, 0.08), rgba(2, 12, 20, 0.26));
+}
+
+:root[data-visual-style="cavern"] {
+  --bg-0: #17243c;
+  --surface: #344a68;
+  --surface-elev: #405978;
+  --surface-sunken: #233650;
+  --border: #18263d;
+  --border-subtle: rgba(148, 175, 197, 0.24);
+  --border-strong: #7891a9;
+  --hairline: rgba(148, 175, 197, 0.3);
+  --text-primary: #f0ecc5;
+  --text-secondary: #cad3bc;
+  --text-tertiary: #9fb1a8;
+  --text-on-strong: #f4ffe1;
+  --fill-secondary: rgba(205, 224, 197, 0.16);
+  --fill-tertiary: rgba(205, 224, 197, 0.09);
+  --hover-bg: #486079;
+  --progress-bg: #17263c;
+  --progress-cpu: #55b2d9;
+  --progress-memory: #b477d0;
+  --progress-swap: #8179d0;
+  --progress-disk: #dc9849;
+  --progress-network: #6bc45e;
+  --progress-load: #d66b8a;
+  --status-success: #6bc45e;
+  --status-warning: #e0b44c;
+  --status-error: #df6258;
+  --status-info: #55b2d9;
+  --accent-500: #6bc45e;
+  --accent-strong: #9ce48b;
+  --status-online: #6bc45e;
+  --status-offline: #df6258;
+  --traffic-up: #55b2d9;
+  --traffic-down: #6bc45e;
+  --ring: rgba(100, 210, 218, 0.52);
+  --visual-radius-card: 3px;
+  --visual-radius-panel: 4px;
+  --visual-radius-control: 3px;
+  --visual-border-width: 1px;
+  --visual-panel-shadow: inset 0 0 0 1px rgba(129, 157, 181, 0.42);
+  --bg-image-desktop: url("/private-assets/cavern/background.png");
+  --bg-image-mobile: url("/private-assets/cavern/background.png");
+  --bg-size: cover;
+  --bg-position: center top;
+  --bg-scrim: linear-gradient(to bottom, rgba(4, 10, 20, 0.18), rgba(3, 8, 17, 0.48));
+  --canvas-noise: none;
+  --canvas-glow: none;
+}
+
+:root[data-appearance="light"][data-visual-style="cavern"] {
+  --surface: #536b84;
+  --surface-elev: #637b91;
+  --surface-sunken: #3c526d;
+  --text-primary: #fff4c9;
+  --text-secondary: #dce1c7;
+  --text-tertiary: #b3c0b6;
+  --hover-bg: #6c8294;
+  --progress-bg: #2b405a;
+}
+
+:root[data-appearance="dark"][data-visual-style="cavern"] {
+  --bg-0: #080e19;
+  --surface: #253750;
+  --surface-elev: #304660;
+  --surface-sunken: #17263b;
+  --border: #090f1c;
+  --border-subtle: rgba(128, 158, 184, 0.25);
+  --border-strong: #718ba2;
+  --hairline: rgba(128, 158, 184, 0.3);
+  --text-primary: #f1edc7;
+  --text-secondary: #c8d2bd;
+  --text-tertiary: #93a79d;
+  --hover-bg: #3b526b;
+  --progress-bg: #101c2e;
+  --bg-scrim: linear-gradient(to bottom, rgba(2, 5, 12, 0.42), rgba(2, 5, 11, 0.7));
+}
+
+:root[data-visual-style="pastoral"],
+:root[data-visual-style="cavern"] {
+  image-rendering: pixelated;
+  letter-spacing: 0.006em;
+}
+
+:root[data-visual-style="pastoral"] body,
+:root[data-visual-style="pastoral"] button,
+:root[data-visual-style="pastoral"] input,
+:root[data-visual-style="pastoral"] select,
+:root[data-visual-style="pastoral"] textarea {
+  font-family: "Silkscreen", "Ark Pixel 12px", "Microsoft YaHei UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: none;
+}
+
+:root[data-visual-style="pastoral"] .server-card,
+:root[data-visual-style="pastoral"] .compact-node-card,
+:root[data-visual-style="pastoral"] .mini-node-card,
+:root[data-visual-style="pastoral"] .overview-card,
+:root[data-visual-style="pastoral"] .node-list,
+:root[data-visual-style="pastoral"] .instance-panel,
+:root[data-visual-style="pastoral"] .theme-masthead,
+:root[data-visual-style="pastoral"] .surface-inset,
+:root[data-visual-style="cavern"] .server-card,
+:root[data-visual-style="cavern"] .compact-node-card,
+:root[data-visual-style="cavern"] .mini-node-card,
+:root[data-visual-style="cavern"] .overview-card,
+:root[data-visual-style="cavern"] .node-list,
+:root[data-visual-style="cavern"] .instance-panel,
+:root[data-visual-style="cavern"] .theme-masthead,
+:root[data-visual-style="cavern"] .surface-inset {
+  border-width: var(--visual-border-width);
+  border-radius: var(--visual-radius-panel);
+  box-shadow: var(--visual-panel-shadow);
+}
+
+:root[data-visual-style="pastoral"] .server-card,
+:root[data-visual-style="pastoral"] .compact-node-card,
+:root[data-visual-style="pastoral"] .mini-node-card,
+:root[data-visual-style="cavern"] .server-card,
+:root[data-visual-style="cavern"] .compact-node-card,
+:root[data-visual-style="cavern"] .mini-node-card {
+  border-radius: var(--visual-radius-card);
+}
+
+/* The source panel image contains a complete ornamental frame. It must not be tiled or scaled
+   as a card texture: doing so draws its inner frame lines through arbitrary card content.
+   Recreate the quiet paper grain with CSS and let each component own exactly one outer border. */
+:root[data-visual-style="pastoral"] .server-card,
+:root[data-visual-style="pastoral"] .compact-node-card,
+:root[data-visual-style="pastoral"] .mini-node-card,
+:root[data-visual-style="pastoral"] .overview-card,
+:root[data-visual-style="pastoral"] .instance-panel,
+:root[data-visual-style="pastoral"] .theme-masthead,
+:root[data-visual-style="pastoral"] .appearance-picker,
+:root[data-visual-style="pastoral"] .metric-color-picker {
+  background-color: var(--surface);
+  background-image:
+    linear-gradient(180deg, rgba(255, 239, 184, 0.3), rgba(199, 132, 55, 0.08)),
+    radial-gradient(circle at 18% 24%, rgba(124, 73, 32, 0.055) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 72% 68%, rgba(255, 250, 210, 0.22) 0 1px, transparent 1.5px);
+  background-position: center, 0 0, 7px 9px;
+  background-size: auto, 19px 17px, 23px 21px;
+  border-color: var(--border);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 234, 163, 0.72),
+    inset 0 -3px 0 rgba(128, 70, 30, 0.1);
+}
+
+/* Ornamental Stardew card frame. The frame is drawn once around the card and never participates
+   in content layout, so it cannot create the crossing lines caused by the original panel bitmap. */
+:root[data-visual-style="pastoral"] .server-card,
+:root[data-visual-style="pastoral"] .compact-node-card,
+:root[data-visual-style="pastoral"] .mini-node-card {
+  --pastoral-ribbon-a: #4d9a3d;
+  --pastoral-ribbon-b: #276d31;
+  --pastoral-ribbon-edge: #174722;
+  border: 2px solid #593019;
+  border-radius: 5px;
+  box-shadow:
+    0 0 0 2px #c27a32,
+    0 0 0 3px rgba(80, 39, 17, 0.82),
+    4px 5px 0 rgba(75, 40, 18, 0.24),
+    inset 0 0 0 1px #fff0b0;
+  overflow: hidden;
+}
+
+:root[data-visual-style="pastoral"] .grid > .min-w-0:nth-child(6n + 2) > :is(.server-card, .compact-node-card, .mini-node-card) {
+  --pastoral-ribbon-a: #3b9bd2;
+  --pastoral-ribbon-b: #1764a8;
+  --pastoral-ribbon-edge: #12457b;
+}
+
+:root[data-visual-style="pastoral"] .grid > .min-w-0:nth-child(6n + 3) > :is(.server-card, .compact-node-card, .mini-node-card) {
+  --pastoral-ribbon-a: #a469c4;
+  --pastoral-ribbon-b: #713b9b;
+  --pastoral-ribbon-edge: #4e246f;
+}
+
+:root[data-visual-style="pastoral"] .grid > .min-w-0:nth-child(6n + 4) > :is(.server-card, .compact-node-card, .mini-node-card) {
+  --pastoral-ribbon-a: #df6d7a;
+  --pastoral-ribbon-b: #b23c58;
+  --pastoral-ribbon-edge: #7e283e;
+}
+
+:root[data-visual-style="pastoral"] .grid > .min-w-0:nth-child(6n + 5) > :is(.server-card, .compact-node-card, .mini-node-card) {
+  --pastoral-ribbon-a: #f1a43c;
+  --pastoral-ribbon-b: #d66b17;
+  --pastoral-ribbon-edge: #8c3f13;
+}
+
+:root[data-visual-style="pastoral"] .grid > .min-w-0:nth-child(6n + 6) > :is(.server-card, .compact-node-card, .mini-node-card) {
+  --pastoral-ribbon-a: #35b4b2;
+  --pastoral-ribbon-b: #157d83;
+  --pastoral-ribbon-edge: #0d535b;
+}
+
+:root[data-visual-style="pastoral"] :is(.server-card, .compact-node-card, .mini-node-card)::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  z-index: 3;
+  border: 1px solid rgba(111, 57, 24, 0.78);
+  border-radius: 2px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 239, 177, 0.7),
+    0 0 0 1px rgba(181, 107, 43, 0.45);
+  background:
+    radial-gradient(circle, #4e2816 0 2px, #d38a3a 2.5px 3.5px, transparent 4px) left 4px top 4px / 9px 9px no-repeat,
+    radial-gradient(circle, #4e2816 0 2px, #d38a3a 2.5px 3.5px, transparent 4px) right 4px top 4px / 9px 9px no-repeat,
+    radial-gradient(circle, #4e2816 0 2px, #d38a3a 2.5px 3.5px, transparent 4px) left 4px bottom 4px / 9px 9px no-repeat,
+    radial-gradient(circle, #4e2816 0 2px, #d38a3a 2.5px 3.5px, transparent 4px) right 4px bottom 4px / 9px 9px no-repeat;
+  pointer-events: none;
+}
+
+:root[data-visual-style="pastoral"] :is(.server-card, .compact-node-card, .mini-node-card)::after {
+  content: "";
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
+  z-index: 4;
+  width: 58px;
+  height: 29px;
+  background: url("/private-assets/pastoral/crop-strip.png") right bottom / contain no-repeat;
+  image-rendering: pixelated;
+  filter: drop-shadow(1px 1px 0 rgba(72, 36, 15, 0.5));
+  pointer-events: none;
+}
+
+:root[data-visual-style="pastoral"] :is(.server-card-content, .compact-node-card, .mini-node-card) > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Raised, colored node plaques reproduce the reference hierarchy without moving the card grid. */
+:root[data-visual-style="pastoral"] :is(.server-card-title-row, .compact-node-title-row, .mini-node-header) {
+  width: fit-content;
+  max-width: calc(100% - 4px);
+  height: 30px;
+  border: 2px solid var(--pastoral-ribbon-edge);
+  border-radius: 4px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent 42%),
+    linear-gradient(180deg, var(--pastoral-ribbon-a), var(--pastoral-ribbon-b));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 231, 135, 0.34),
+    inset 0 -3px 0 rgba(49, 23, 13, 0.2),
+    2px 3px 0 rgba(76, 39, 18, 0.34);
+}
+
+:root[data-visual-style="pastoral"] .server-card-title-row {
+  min-width: min(210px, 100%);
+}
+
+:root[data-visual-style="pastoral"] .compact-node-title-row {
+  min-width: min(174px, 100%);
+}
+
+:root[data-visual-style="pastoral"] .mini-node-header {
+  align-self: flex-start;
+  min-width: min(156px, 100%);
+}
+
+:root[data-visual-style="pastoral"] :is(.server-card-title-link, .compact-node-title, .mini-node-title) {
+  color: #fff6c8;
+  font-family: "Silkscreen", "Ark Pixel 12px", "Microsoft YaHei UI", sans-serif;
+  font-weight: 400;
+  font-size: 17px;
+  letter-spacing: 0.025em;
+  line-height: 1;
+  margin-inline: -2px 4px;
+  text-shadow:
+    1px 1px 0 rgba(47, 21, 12, 0.95),
+    0 2px 0 rgba(47, 21, 12, 0.55);
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .server-card-title-row,
+  .compact-node-title-row,
+  .mini-node-header
+) > img {
+  margin-inline-end: 0;
+}
+
+:root[data-visual-style="pastoral"] :is(.server-card-title-link, .compact-node-title, .mini-node-title):hover {
+  color: #ffffff;
+}
+
+:root[data-visual-style="pastoral"] :is(.server-card-header, .compact-node-header) {
+  align-items: center;
+}
+
+:root[data-visual-style="pastoral"] :is(.server-card-detail-link, .compact-node-detail-link, .mini-node-os) {
+  border: 2px solid #75401f;
+  border-radius: 50%;
+  background: #f5cf76;
+  color: #523019;
+  box-shadow:
+    inset 0 0 0 1px #fff1ad,
+    1px 2px 0 rgba(78, 39, 17, 0.28);
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .metric-label,
+  .server-health-label,
+  .server-card-meta-label,
+  .compact-node-gauge-label,
+  .compact-node-health-label,
+  .compact-node-info-row-label
+) > svg {
+  filter: drop-shadow(1px 1px 0 rgba(79, 41, 19, 0.28));
+  stroke-width: 2.6;
+}
+
+:root[data-visual-style="pastoral"] .metric-icon {
+  --metric-icon-color: #3f88a8;
+  display: inline-grid;
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  place-items: center;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+:root[data-visual-style="pastoral"] .metric-icon .pixel-metric-icon {
+  width: 16px;
+  height: 16px;
+  overflow: visible;
+  filter: drop-shadow(1px 1px 0 rgba(71, 35, 17, 0.38));
+}
+
+:root[data-visual-style="pastoral"] .pixel-metric-icon .px-outline { fill: #4b2a1b; }
+:root[data-visual-style="pastoral"] .pixel-metric-icon .px-main { fill: var(--metric-icon-color, currentColor); }
+:root[data-visual-style="pastoral"] .pixel-metric-icon .px-light { fill: #fff0a7; }
+:root[data-visual-style="pastoral"] .pixel-metric-icon .px-detail { fill: #70401f; }
+:root[data-visual-style="pastoral"] .pixel-metric-icon .px-accent { fill: #e36f35; }
+:root[data-visual-style="pastoral"] .pixel-metric-icon--upload,
+:root[data-visual-style="pastoral"] .pixel-metric-icon--outbound { --metric-icon-color: #3d8fd0; }
+:root[data-visual-style="pastoral"] .pixel-metric-icon--download,
+:root[data-visual-style="pastoral"] .pixel-metric-icon--inbound { --metric-icon-color: #48a65b; }
+:root[data-visual-style="pastoral"] .pixel-metric-icon--quota { --metric-icon-color: #54a84e; }
+:root[data-visual-style="pastoral"] .pixel-metric-icon--latency { --metric-icon-color: #e2a83c; }
+:root[data-visual-style="pastoral"] .pixel-metric-icon--loss { --metric-icon-color: #d85e50; }
+:root[data-visual-style="pastoral"] .pixel-metric-icon--online { --metric-icon-color: #35a79b; }
+:root[data-visual-style="pastoral"] .pixel-metric-icon--expiry { --metric-icon-color: #dc8a37; }
+:root[data-visual-style="pastoral"] .pixel-metric-icon--price { --metric-icon-color: #66a948; }
+:root[data-visual-style="pastoral"] .pixel-metric-icon--connections { --metric-icon-color: #388daf; }
+
+:root[data-visual-style="pastoral"] :is(
+  .server-health-label,
+  .traffic-quota-label,
+  .server-card-meta-label,
+  .compact-node-health-label,
+  .mini-node-health-label
+) .pixel-metric-icon {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+:root[data-visual-style="pastoral"] :is(.server-metric-grid, .compact-node-vitals, .mini-node-vitals) > :nth-child(1) {
+  --metric-icon-color: #2e9bc4;
+}
+
+:root[data-visual-style="pastoral"] :is(.server-metric-grid, .compact-node-vitals, .mini-node-vitals) > :nth-child(2) {
+  --metric-icon-color: #9d59ba;
+}
+
+:root[data-visual-style="pastoral"] :is(.server-metric-grid, .compact-node-vitals, .mini-node-vitals) > :nth-child(3) {
+  --metric-icon-color: #d47732;
+}
+
+:root[data-visual-style="pastoral"] :is(.server-metric-grid, .compact-node-vitals, .mini-node-vitals) > :nth-child(4) {
+  --metric-icon-color: #cf587b;
+}
+
+:root[data-visual-style="pastoral"] .server-traffic-section > :nth-child(1) {
+  --metric-icon-color: #3d86d3;
+}
+
+:root[data-visual-style="pastoral"] .server-traffic-section > :nth-child(2) {
+  --metric-icon-color: #3f9a5a;
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .server-health-label,
+  .traffic-quota-label,
+  .server-card-meta-label,
+  .compact-node-health-label,
+  .mini-node-health-label
+) > svg {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #8d5a28;
+  border-radius: 2px;
+  background: #efd17e;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 245, 188, 0.64),
+    1px 1px 0 rgba(75, 38, 17, 0.28);
+}
+
+:root[data-visual-style="pastoral"] .server-health-label > svg:first-child,
+:root[data-visual-style="pastoral"] .mini-node-health-label > svg:first-child {
+  color: #3b8f88;
+}
+
+:root[data-visual-style="pastoral"] .traffic-quota-label > svg {
+  color: #4d9a3d;
+}
+
+:root[data-visual-style="pastoral"] .traffic-stat-live-dot {
+  border: 1px solid #315d24;
+  box-shadow:
+    0 0 0 2px #f3d27c,
+    0 0 0 3px rgba(84, 45, 21, 0.48);
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .overview-card-label,
+  .metric-label,
+  .server-health-label,
+  .server-card-meta-label,
+  .compact-node-gauge-label,
+  .compact-node-health-label,
+  .compact-node-info-row-label
+) {
+  font-family: "DotGothic16", "Microsoft YaHei UI", sans-serif;
+  font-weight: 700;
+}
+
+:root[data-appearance="dark"][data-visual-style="pastoral"] .server-card,
+:root[data-appearance="dark"][data-visual-style="pastoral"] .compact-node-card,
+:root[data-appearance="dark"][data-visual-style="pastoral"] .mini-node-card,
+:root[data-appearance="dark"][data-visual-style="pastoral"] .overview-card,
+:root[data-appearance="dark"][data-visual-style="pastoral"] .instance-panel,
+:root[data-appearance="dark"][data-visual-style="pastoral"] .theme-masthead,
+:root[data-appearance="dark"][data-visual-style="pastoral"] .appearance-picker,
+:root[data-appearance="dark"][data-visual-style="pastoral"] .metric-color-picker {
+  background-image:
+    linear-gradient(180deg, rgba(92, 78, 104, 0.28), rgba(26, 24, 37, 0.2)),
+    radial-gradient(circle at 18% 24%, rgba(8, 8, 18, 0.16) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 72% 68%, rgba(255, 224, 158, 0.06) 0 1px, transparent 1.5px);
+}
+
+:root[data-visual-style="pastoral"] .surface-inset,
+:root[data-visual-style="pastoral"] .node-list,
+:root[data-visual-style="pastoral"] .home-group-tabs,
+:root[data-visual-style="pastoral"] .home-region-bar {
+  background-color: var(--surface-sunken);
+  background-image:
+    linear-gradient(180deg, rgba(255, 221, 142, 0.2), rgba(111, 62, 28, 0.12)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(117, 64, 28, 0.055) 0 1px,
+      transparent 1px 18px
+    );
+  background-position: center;
+  background-size: auto;
+  border-color: var(--border);
+  box-shadow: inset 0 0 0 1px rgba(255, 225, 146, 0.38);
+}
+
+/* A full-width table needs a lighter paper surface than the compact wooden filter controls.
+   Keeping the former sunken wood token here made the entire list read as one dark slab. */
+:root[data-visual-style="pastoral"] .node-list {
+  background-color: #f3d58b;
+  background-image:
+    linear-gradient(180deg, rgba(255, 240, 184, 0.28), rgba(198, 128, 50, 0.06)),
+    radial-gradient(circle at 20% 25%, rgba(116, 66, 29, 0.045) 0 1px, transparent 1.5px);
+  background-position: center, 0 0;
+  background-size: auto, 19px 17px;
+  border: 2px solid #75401f;
+  box-shadow:
+    0 0 0 1px #c47b32,
+    inset 0 0 0 1px rgba(255, 238, 171, 0.66);
+}
+
+:root[data-visual-style="pastoral"] .node-list-head {
+  background: #ffe4a3;
+  color: #84552f;
+  border-bottom-color: #b66f31;
+  box-shadow: inset 0 -2px 0 rgba(147, 79, 30, 0.1);
+}
+
+:root[data-visual-style="pastoral"] .node-list-row:not(.node-list-head) {
+  background: rgba(255, 239, 184, 0.13);
+  border-bottom-color: rgba(136, 76, 31, 0.2);
+}
+
+:root[data-visual-style="pastoral"] .node-list-row:not(.node-list-head):nth-child(odd) {
+  background: rgba(255, 247, 207, 0.22);
+}
+
+:root[data-visual-style="pastoral"] .node-list-row:not(.node-list-head):hover {
+  background: rgba(255, 231, 154, 0.58);
+}
+
+:root[data-visual-style="pastoral"] .home-region-bar {
+  background-color: #edc370;
+  background-image:
+    linear-gradient(180deg, rgba(255, 239, 175, 0.34), rgba(183, 105, 38, 0.08)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(117, 64, 28, 0.035) 0 1px,
+      transparent 1px 24px
+    );
+  border-color: #9d5d28;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 235, 164, 0.62),
+    1px 2px 0 rgba(81, 41, 19, 0.14);
+}
+
+:root[data-visual-style="pastoral"] .home-region-chip {
+  color: #79502f;
+}
+
+:root[data-visual-style="pastoral"] .home-region-chip:hover {
+  background: rgba(255, 231, 157, 0.48);
+  color: #4b2818;
+}
+
+:root[data-appearance="dark"][data-visual-style="pastoral"] .node-list {
+  background-color: #353342;
+  background-image:
+    linear-gradient(180deg, rgba(91, 78, 105, 0.22), rgba(17, 17, 28, 0.12)),
+    radial-gradient(circle at 20% 25%, rgba(255, 225, 158, 0.035) 0 1px, transparent 1.5px);
+  border-color: #b07d43;
+  box-shadow:
+    0 0 0 1px #5c3a28,
+    inset 0 0 0 1px rgba(231, 190, 115, 0.28);
+}
+
+:root[data-appearance="dark"][data-visual-style="pastoral"] .node-list-head {
+  background: #4a4152;
+  color: #d9c18b;
+  border-bottom-color: #9b6c3d;
+}
+
+:root[data-appearance="dark"][data-visual-style="pastoral"] .node-list-row:not(.node-list-head) {
+  background: rgba(83, 72, 96, 0.1);
+  border-bottom-color: rgba(219, 177, 104, 0.16);
+}
+
+:root[data-appearance="dark"][data-visual-style="pastoral"] .node-list-row:not(.node-list-head):nth-child(odd) {
+  background: rgba(108, 91, 119, 0.12);
+}
+
+:root[data-appearance="dark"][data-visual-style="pastoral"] .node-list-row:not(.node-list-head):hover {
+  background: rgba(126, 101, 125, 0.3);
+}
+
+:root[data-appearance="dark"][data-visual-style="pastoral"] .home-region-bar {
+  background-color: #3c3548;
+  background-image:
+    linear-gradient(180deg, rgba(103, 86, 116, 0.34), rgba(21, 20, 32, 0.14)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(237, 194, 117, 0.025) 0 1px,
+      transparent 1px 24px
+    );
+  border-color: #a9763e;
+  box-shadow:
+    inset 0 0 0 1px rgba(231, 190, 116, 0.27),
+    1px 2px 0 rgba(4, 5, 14, 0.24);
+}
+
+:root[data-appearance="dark"][data-visual-style="pastoral"] .home-region-chip {
+  color: #d7c08d;
+}
+
+:root[data-appearance="dark"][data-visual-style="pastoral"] .home-region-chip:hover {
+  background: rgba(138, 111, 132, 0.3);
+  color: #fff0bd;
+}
+
+/* Terraria keeps the illustrated cavern on the page canvas. Repeating that full scene inside
+   every card competes with dense monitoring text, so cards use a quiet pixel-stone pattern. */
+:root[data-visual-style="cavern"] .server-card,
+:root[data-visual-style="cavern"] .compact-node-card,
+:root[data-visual-style="cavern"] .mini-node-card,
+:root[data-visual-style="cavern"] .overview-card,
+:root[data-visual-style="cavern"] .node-list,
+:root[data-visual-style="cavern"] .instance-panel,
+:root[data-visual-style="cavern"] .theme-masthead,
+:root[data-visual-style="cavern"] .surface-inset,
+:root[data-visual-style="cavern"] .appearance-picker,
+:root[data-visual-style="cavern"] .metric-color-picker,
+:root[data-visual-style="cavern"] .home-group-tabs,
+:root[data-visual-style="cavern"] .home-region-bar {
+  background-color: var(--surface);
+  background-image:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface-elev) 42%, transparent),
+      color-mix(in srgb, var(--surface-sunken) 24%, transparent)
+    ),
+    linear-gradient(135deg, rgba(198, 219, 226, 0.055) 25%, transparent 25%),
+    linear-gradient(315deg, rgba(9, 17, 30, 0.12) 25%, transparent 25%);
+  background-position: center, 0 0, 8px 8px;
+  background-size: auto, 16px 16px, 16px 16px;
+  border-color: var(--border);
+  box-shadow:
+    inset 0 0 0 1px rgba(129, 157, 181, 0.38),
+    inset 0 -3px 0 rgba(7, 14, 25, 0.16);
+}
+
+:root[data-visual-style="pastoral"] .control-button,
+:root[data-visual-style="pastoral"] .instance-segmented,
+:root[data-visual-style="pastoral"] .instance-segmented button,
+:root[data-visual-style="pastoral"] .appearance-picker,
+:root[data-visual-style="pastoral"] .visual-style-option,
+:root[data-visual-style="cavern"] .control-button,
+:root[data-visual-style="cavern"] .instance-segmented,
+:root[data-visual-style="cavern"] .instance-segmented button,
+:root[data-visual-style="cavern"] .appearance-picker,
+:root[data-visual-style="cavern"] .visual-style-option {
+  border-radius: var(--visual-radius-control);
+}
+
+:root[data-visual-style="pastoral"] .control-button,
+:root[data-visual-style="cavern"] .control-button {
+  border-width: 1px;
+  border-color: var(--border);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--border-strong) 24%, transparent);
+  backdrop-filter: none;
+}
+
+/* The source is kept at its native height and cropped horizontally, never stretched. */
+:root[data-visual-style="pastoral"] .home-group-tabs button[data-active="true"],
+:root[data-visual-style="pastoral"] .home-region-chip[data-active="true"],
+:root[data-visual-style="pastoral"] .appearance-mode-options button[data-active="true"],
+:root[data-visual-style="pastoral"] .instance-segmented button[data-active="true"] {
+  border-color: #6f3c1f;
+  background-color: #c97835;
+  background-image: url("/private-assets/pastoral/ui-button.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto 56px;
+  color: #fff0ad;
+  box-shadow: inset 0 0 0 1px rgba(255, 222, 125, 0.28);
+}
+
+:root[data-visual-style="cavern"] .home-group-tabs button[data-active="true"],
+:root[data-visual-style="cavern"] .home-region-chip[data-active="true"],
+:root[data-visual-style="cavern"] .appearance-mode-options button[data-active="true"],
+:root[data-visual-style="cavern"] .instance-segmented button[data-active="true"] {
+  border-color: #152136;
+  background: linear-gradient(#59824f, #315b35);
+  color: #f2f5c9;
+  box-shadow: inset 0 0 0 1px rgba(166, 213, 111, 0.28);
+}
+
+:root[data-visual-style="pastoral"] .visual-style-option[data-style="pastoral"][data-active="true"] {
+  border-color: #75401f;
+  background:
+    linear-gradient(180deg, rgba(255, 239, 173, 0.34), transparent 46%),
+    linear-gradient(180deg, #e8ad55, #c87832);
+  color: #4b2818;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 235, 156, 0.62),
+    inset 0 -3px 0 rgba(91, 44, 20, 0.18),
+    1px 2px 0 rgba(81, 41, 19, 0.24);
+}
+
+:root[data-visual-style="cavern"] .visual-style-option[data-style="cavern"] > svg {
+  color: transparent;
+  background: url("/private-assets/cavern/amethyst.png") center / contain no-repeat;
+}
+
+:root[data-visual-style="cavern"] .appearance-picker-head > svg {
+  color: transparent;
+  background: url("/private-assets/cavern/mana-crystal.png") center / contain no-repeat;
+}
+
+:root[data-visual-style="cavern"] .visual-style-option[data-style="cavern"] .visual-style-swatches i:nth-child(1) {
+  background: url("/private-assets/cavern/life-crystal.png") center / contain no-repeat !important;
+  border-color: transparent;
+}
+
+:root[data-visual-style="cavern"] .visual-style-option[data-style="cavern"] .visual-style-swatches i:nth-child(2) {
+  background: url("/private-assets/cavern/mana-crystal.png") center / contain no-repeat !important;
+  border-color: transparent;
+}
+
+:root[data-visual-style="cavern"] .visual-style-option[data-style="cavern"] .visual-style-swatches i:nth-child(3) {
+  background: url("/private-assets/cavern/amethyst.png") center / contain no-repeat !important;
+  border-color: transparent;
+}
+
+:root[data-visual-style="pastoral"] .compact-node-tag,
+:root[data-visual-style="pastoral"] .server-card-tag,
+:root[data-visual-style="pastoral"] .overview-card-rating {
+  border-color: rgba(112, 62, 29, 0.3);
+  background: color-mix(in srgb, #f6d994 68%, var(--tag-bg) 32%);
+}
+
+:root[data-visual-style="cavern"] .compact-node-tag,
+:root[data-visual-style="cavern"] .server-card-tag,
+:root[data-visual-style="cavern"] .overview-card-rating {
+  border-color: rgba(147, 174, 194, 0.25);
+  background: color-mix(in srgb, #314966 62%, var(--tag-bg) 38%);
+}
+
+:root[data-visual-style="pastoral"] .home-brand-title {
+  color: #f6c84d;
+  font-family: "Silkscreen", "Microsoft YaHei UI", sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.12;
+  text-shadow:
+    0 -1px 0 #fff09a,
+    1px 0 0 #a96118,
+    -1px 0 0 #a96118,
+    0 2px 0 #774018,
+    2px 3px 0 #3e281c;
+  letter-spacing: 0.075em;
+}
+
+/* Pastoral is a complete 16-bit UI skin: hard edges, stepped corners and zero blur. */
+:root[data-visual-style="pastoral"] {
+  --visual-radius-panel: 4px;
+  --visual-radius-card: 3px;
+  --visual-radius-control: 2px;
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .overview-card,
+  .home-region-bar,
+  .node-list,
+  .instance-panel,
+  .theme-masthead,
+  .appearance-picker,
+  .metric-color-picker
+) {
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 2px #9a5728,
+    0 0 0 3px #61321b,
+    3px 4px 0 rgba(75, 40, 18, 0.22),
+    inset 0 0 0 1px rgba(255, 239, 177, 0.72);
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .server-card-title-row,
+  .compact-node-title-row,
+  .mini-node-header
+) {
+  border-radius: 2px;
+  clip-path: polygon(3px 0, calc(100% - 3px) 0, calc(100% - 3px) 2px, 100% 2px, 100% calc(100% - 2px), calc(100% - 3px) calc(100% - 2px), calc(100% - 3px) 100%, 3px 100%, 3px calc(100% - 2px), 0 calc(100% - 2px), 0 2px, 3px 2px);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 240, 174, 0.36),
+    inset 0 -3px 0 rgba(48, 23, 12, 0.28),
+    3px 3px 0 rgba(76, 39, 18, 0.4);
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .card-metric-section,
+  .compact-node-vitals,
+  .compact-node-info-strip,
+  .compact-node-traffic,
+  .compact-node-bottom,
+  .mini-node-vitals,
+  .mini-node-flow,
+  .mini-node-health
+) {
+  border-color: rgba(119, 67, 31, 0.42);
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .compact-node-gauge-track,
+  .server-health-chart-wrap,
+  .compact-node-health-bar,
+  .instance-progress-track
+) {
+  border-radius: 0;
+  image-rendering: pixelated;
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .compact-node-tag,
+  .server-card-tag,
+  .mini-node-tag,
+  .mini-node-price-tag,
+  .overview-card-rating,
+  .home-region-chip,
+  .control-button
+) {
+  border-radius: 2px;
+  box-shadow:
+    inset 0 -2px 0 rgba(90, 48, 23, 0.16),
+    1px 2px 0 rgba(75, 38, 17, 0.2);
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .metric-label,
+  .server-health-label,
+  .server-card-meta-label,
+  .compact-node-gauge-label,
+  .compact-node-health-label,
+  .compact-node-info-row-label,
+  .mini-node-health-label
+) {
+  font-family: "Silkscreen", "Ark Pixel 12px", "Microsoft YaHei UI", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .traffic-summary-total,
+  .traffic-summary-directions span,
+  .traffic-summary-peak-main strong,
+  .traffic-summary-peak-main small,
+  .traffic-table [data-numeric] strong,
+  .traffic-table [data-numeric] small,
+  .traffic-table [data-numeric] span,
+  .traffic-node-card-actions > strong,
+  .traffic-node-card-directions span,
+  .traffic-peak-value strong,
+  .traffic-peak-value small
+) {
+  font-family: "Silkscreen", "Ark Pixel 12px", monospace !important;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+:root[data-visual-style="pastoral"] .traffic-page .cost-summary-action {
+  border-color: transparent;
+  color: #f6c84d;
+  filter: drop-shadow(1px 1px 0 #5f3518);
+}
+
+:root[data-visual-style="pastoral"] .traffic-page .cost-summary-action:hover {
+  border-color: rgba(246, 200, 77, 0.42);
+  background: rgba(92, 52, 24, 0.2);
+  color: #fff2a3;
+}
+
+:root[data-visual-style="pastoral"] .assets-page .cost-summary-action {
+  border-color: transparent;
+  color: #f6c84d;
+  filter: drop-shadow(1px 1px 0 #5f3518);
+}
+
+:root[data-visual-style="pastoral"] .assets-page .cost-summary-action:hover {
+  border-color: rgba(246, 200, 77, 0.42);
+  background: rgba(92, 52, 24, 0.2);
+  color: #fff2a3;
+}
+
+:root[data-visual-style="pastoral"] .traffic-page .assets-section-head :is(
+  .assets-eyebrow,
+  .assets-count,
+  .traffic-sample-note
+) {
+  color: #f6c84d;
+  font-family: "Silkscreen", "Ark Pixel 12px", "Microsoft YaHei UI", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.025em;
+  text-shadow:
+    1px 0 0 #8b4b17,
+    -1px 0 0 #8b4b17,
+    0 1px 0 #633418,
+    1px 2px 0 #352116;
+}
+
+:root[data-visual-style="pastoral"] .assets-page .assets-section-head :is(
+  .assets-eyebrow,
+  .assets-count,
+  .assets-renewal-inline
+) {
+  color: #f6c84d;
+  font-family: "Silkscreen", "Ark Pixel 12px", "Microsoft YaHei UI", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.025em;
+  text-shadow:
+    1px 0 0 #8b4b17,
+    -1px 0 0 #8b4b17,
+    0 1px 0 #633418,
+    1px 2px 0 #352116;
+}
+
+:root[data-visual-style="pastoral"] .assets-page .assets-renewal-inline {
+  border: 1px solid rgba(246, 200, 77, 0.36);
+  background: rgba(90, 49, 22, 0.18);
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .assets-hero-value,
+  .assets-hero-value .assets-hero-currency,
+  .assets-hero-value .assets-hero-frac,
+  .assets-ledger-row dd,
+  .assets-table td[data-numeric],
+  .assets-table td[data-numeric] *,
+  .assets-renewal-cell,
+  .assets-card-value
+) {
+  font-family: "Silkscreen", "Ark Pixel 12px", monospace !important;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .tabular,
+  .overview-card-value,
+  .metric-value,
+  .traffic-stat-value,
+  .server-health-value,
+  .compact-node-gauge-value,
+  .compact-node-health-value,
+  .compact-node-info-row-value,
+  .mini-node-health-value
+) {
+  font-family: "Silkscreen", "Ark Pixel 12px", monospace;
+  font-variant-numeric: tabular-nums;
+  font-weight: 400;
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .overview-card-unit,
+  .traffic-stat-unit,
+  .server-health-unit,
+  .server-card-meta-unit,
+  .compact-node-info-row-value small,
+  .compact-node-health-value small,
+  .traffic-summary-total,
+  .traffic-summary-directions,
+  .traffic-summary-peak-main strong,
+  .traffic-summary-peak-main small,
+  .traffic-volume-value,
+  .traffic-peak-value,
+  .traffic-table [data-numeric],
+  .traffic-node-card-head > strong,
+  .traffic-node-card-directions,
+  .assets-count
+) {
+  font-family: "Silkscreen", "Ark Pixel 12px", monospace;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .traffic-quota-remain,
+  .traffic-quota-usage,
+  .compact-node-traffic-value,
+  .compact-node-traffic-uptime
+) {
+  font-family: "Silkscreen", "Ark Pixel 12px", monospace !important;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .overview-card-rating,
+  .traffic-stat-live,
+  .compact-node-traffic-uptime,
+  .home-region-chip-count
+) {
+  border-radius: 2px;
+  font-family: "Silkscreen", "Ark Pixel 12px", "Microsoft YaHei UI", sans-serif;
+  font-weight: 400;
+  text-shadow: 1px 1px 0 rgba(255, 238, 174, 0.7);
+}
+
+:root[data-visual-style="pastoral"] .overview-card-rating {
+  box-shadow: none;
+  font-family: "Ark Pixel 12px", "Microsoft YaHei UI", sans-serif;
+  font-size: 12px;
+  line-height: 1;
+  text-shadow: none;
+}
+
+:root[data-visual-style="pastoral"] .home-region-chip {
+  border-radius: 0;
+  box-shadow: none;
+  font-family: "Ark Pixel 12px", "Microsoft YaHei UI", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-shadow: none;
+}
+
+:root[data-visual-style="pastoral"] .home-region-chip-code {
+  font-family: "Ark Pixel 12px", monospace;
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+:root[data-visual-style="pastoral"] .home-region-chip-count {
+  border: 1px solid rgba(111, 61, 28, 0.18);
+  background: rgba(136, 78, 32, 0.16);
+  color: #68401f;
+  font-family: "Silkscreen", "Ark Pixel 12px", monospace;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+:root[data-visual-style="pastoral"] .home-region-chip[data-active="true"] {
+  border-color: #4c2918;
+  background-color: #684127;
+  background-image:
+    linear-gradient(180deg, rgba(255, 210, 105, 0.14), transparent 44%),
+    linear-gradient(180deg, #70472a, #58331f);
+  color: #fff0a6;
+  text-shadow: 1px 1px 0 #32180e;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 218, 126, 0.34),
+    inset 0 -2px 0 rgba(44, 21, 12, 0.28);
+}
+
+:root[data-visual-style="pastoral"] .home-region-chip[data-active="true"] .home-region-chip-code {
+  color: #fff0a6;
+}
+
+:root[data-visual-style="pastoral"] .home-region-chip[data-active="true"] .home-region-chip-count {
+  border-color: #4c2918;
+  background: #e6ae55;
+  color: #3f2415;
+  text-shadow: 0 1px 0 rgba(255, 231, 150, 0.64);
+  box-shadow: inset 0 -1px 0 rgba(91, 48, 21, 0.24);
+}
+
+:root[data-visual-style="pastoral"] .instance-page-back {
+  color: #f6c84d;
+  font-family: "Silkscreen", "Ark Pixel 12px", "Microsoft YaHei UI", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.035em;
+  text-shadow:
+    1px 0 0 #8b4b17,
+    -1px 0 0 #8b4b17,
+    0 1px 0 #633418,
+    1px 2px 0 #352116;
+}
+
+:root[data-visual-style="pastoral"] .instance-page-back:hover {
+  color: #fff2a3;
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .instance-segmented button,
+  .instance-toggle-button,
+  .instance-chart-meta,
+  .instance-chart-range-chip,
+  .instance-switch-copy,
+  .instance-switch-state,
+  .uplot
+) {
+  font-family: "Ark Pixel 12px", "Microsoft YaHei UI", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: none;
+}
+
+/* Keep labels and readings on adjacent rungs of one type scale instead of two competing scales. */
+:root[data-visual-style="pastoral"] :is(
+  .overview-card-label,
+  .metric-label > span:last-child,
+  .traffic-stat-label,
+  .traffic-stat-total-label,
+  .traffic-quota-label,
+  .server-health-label,
+  .server-card-meta-label
+) {
+  font-size: 13px;
+  line-height: 1.15;
+}
+
+:root[data-visual-style="pastoral"] .overview-card-value {
+  font-size: 27px;
+  letter-spacing: 0;
+}
+
+:root[data-visual-style="pastoral"] .overview-card[data-metric="online"] .overview-card-value {
+  font-size: 24px;
+}
+
+:root[data-visual-style="pastoral"] .overview-card-unit {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+:root[data-visual-style="pastoral"] .metric-item > div:first-child > .tabular {
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+:root[data-visual-style="pastoral"] .traffic-stat-value {
+  font-size: 18px;
+  letter-spacing: 0;
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .traffic-stat-unit,
+  .server-health-unit,
+  .server-card-meta-unit
+) {
+  font-size: 11px;
+  font-weight: 400;
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .server-health-value,
+  .server-card-meta-value
+) {
+  font-size: 15px;
+  letter-spacing: 0;
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .server-health-value,
+  .compact-node-health-value,
+  .mini-node-health-value
+) {
+  color: color-mix(
+    in srgb,
+    var(--health-value-color, var(--text-primary)) 72%,
+    #4f2d18 28%
+  ) !important;
+  text-shadow: 1px 1px 0 rgba(255, 235, 164, 0.72);
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .compact-node-gauge-label,
+  .compact-node-health-label,
+  .compact-node-info-row,
+  .compact-node-traffic-label,
+  .mini-metric-label,
+  .mini-node-health-label
+) {
+  font-size: 13px;
+  line-height: 1.12;
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .compact-node-gauge-value,
+  .compact-node-health-value,
+  .compact-node-info-row-value,
+  .mini-metric-value,
+  .mini-node-health-value
+) {
+  font-size: 13px;
+  letter-spacing: 0;
+}
+
+:root[data-visual-style="pastoral"] :is(
+  .metric-detail,
+  .server-card-subtitle,
+  .compact-node-subtitle,
+  .mini-node-subtitle,
+  .traffic-stat-foot,
+  .traffic-quota-usage,
+  .traffic-quota-remain
+) {
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+:root[data-visual-style="cavern"] .home-brand-title {
+  color: #eff3c9;
+  text-shadow: 2px 2px 0 #07101d, 0 0 10px rgba(83, 220, 225, 0.55);
+  letter-spacing: 0.025em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-visual-style="pastoral"] .status-online,
+  :root[data-visual-style="cavern"] .status-online {
+    animation-timing-function: steps(2, end);
+  }
+}
+
+@media (max-width: 720px) {
+  :root[data-visual-style="pastoral"],
+  :root[data-visual-style="cavern"] {
+    --bg-size: auto 100vh;
+    --bg-position: center top;
+  }
+
+  :root[data-visual-style="pastoral"] :is(.server-card-title-row, .compact-node-title-row, .mini-node-header) {
+  }
+
+  :root[data-visual-style="pastoral"] :is(.server-card, .compact-node-card, .mini-node-card)::after {
+    width: 46px;
+    height: 23px;
+    opacity: 0.9;
+  }
+}
