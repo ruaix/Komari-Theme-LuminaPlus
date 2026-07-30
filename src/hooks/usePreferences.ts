@@ -272,10 +272,13 @@ export function usePreferences() {
 
   useEffect(() => {
     if (!themeSettings.isReady) return;
-    persistDefaultVisualStyle(themeSettings.visualStyle);
+    // 站点首次访问固定使用当前代码默认（星露谷），不再让 Komari 中遗留的
+    // lumina/cavern 默认值覆盖它。用户主动切换会写入个人存储，因此仍可使用其他风格。
+    const defaultVisualStyle = DEFAULTS.visualStyle;
+    persistDefaultVisualStyle(defaultVisualStyle);
     if (!snapshot.followsDefaultVisualStyle) return;
-    commit({ visualStyle: themeSettings.visualStyle });
-  }, [themeSettings.isReady, themeSettings.visualStyle]);
+    commit({ visualStyle: defaultVisualStyle });
+  }, [themeSettings.isReady]);
 
   const setAppearance = useCallback((a: Appearance) => {
     hasExplicitAppearancePreference = true;
