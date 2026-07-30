@@ -77,7 +77,7 @@ export interface ResolvedThemeSettings {
 
 export const DEFAULT_THEME_SETTINGS: ResolvedThemeSettings = {
   defaultAppearance: "system",
-  visualStyle: "lumina",
+  visualStyle: "pastoral",
   desktopNodeViewMode: "large",
   mobileNodeViewMode: "compact",
   enableAdminButton: true,

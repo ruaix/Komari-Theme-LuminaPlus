@@ -2,12 +2,12 @@ import { describe, expect, it } from "vitest";
 import { normalizeThemeSettings } from "@/utils/themeSettings";
 
 describe("normalizeThemeSettings", () => {
-  it("normalizes the visual style and defaults to Lumina", () => {
-    expect(normalizeThemeSettings({}).visualStyle).toBe("lumina");
+  it("normalizes the visual style and defaults to pastoral", () => {
+    expect(normalizeThemeSettings({}).visualStyle).toBe("pastoral");
     expect(normalizeThemeSettings({ visualStyle: "pastoral" }).visualStyle).toBe("pastoral");
     expect(normalizeThemeSettings({ visualStyle: "cavern" }).visualStyle).toBe("cavern");
     expect(normalizeThemeSettings({ visualStyle: "unknown" } as never).visualStyle).toBe(
-      "lumina",
+      "pastoral",
     );
   });
 

@@ -25,7 +25,7 @@ interface PrefsState {
 const DEFAULTS: PrefsState = {
   appearance: "system",
   resolvedAppearance: "dark",
-  visualStyle: "lumina",
+  visualStyle: "pastoral",
   followsDefaultVisualStyle: true,
 };
 
