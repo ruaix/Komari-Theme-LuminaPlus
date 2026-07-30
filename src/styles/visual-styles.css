@@ -1195,11 +1195,14 @@
 
 :root[data-visual-style="pastoral"] .overview-card[data-metric="asset"] .overview-card-value {
   max-width: 100%;
-  gap: 1px;
 }
 
 :root[data-visual-style="pastoral"] .overview-card-currency {
   flex: 0 0 auto;
+}
+
+:root[data-visual-style="pastoral"] .overview-card-currency + span {
+  margin-inline-start: 1px;
 }
 
 :root[data-visual-style="pastoral"] .overview-card[data-metric="online"] .overview-card-value {
